@@ -1,0 +1,1 @@
+This shell can run on machine that has installed maekin package

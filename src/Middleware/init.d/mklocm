@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+#
+# mklocm        This shell script takes care of starting and stopping
+#               the Maekin Local Monitoring Daemon (mklocm).
+#
+# chkconfig: 345 99 01
+# description:  Maekin Local Guest Monitoring Daemon.
+# processname: mklocm
+# pidfile: /var/run/mklocm.pid
+
+import sys, time
+
+#print sys.path
+
+sys.path.append("/maekin/lib/middleware")
+import setting
+
+from daemon.myDaemon import mklocm
+
+if __name__ == "__main__":
+	#print "hello"
+	#print sys.argv
+	if len(sys.argv) >=2:
+		if sys.argv[-1]=='debug':
+			isDebugMode=True
+		else:
+			isDebugMode=False
+
+		logFile=setting.LOG_PATH+'maekin.mklocm'
+		
+		d = mklocm('/var/run/mklocm.pid','mklocm',stdout=logFile,stderr=logFile,isDebugMode=isDebugMode)
+		
+		if 'start' == sys.argv[1]:
+			d.start()
+		elif 'stop' == sys.argv[1]:
+			d.stop()
+		elif 'restart' == sys.argv[1]:
+			d.restart()
+		elif 'status' == sys.argv[1]:
+			d.status()
+		elif 'clearlog' == sys.argv[1]:
+			open(logFile,'w').close()
+		else:
+			print "Unknown command"
+			sys.exit(2)
+		sys.exit(0)
+	else:
+		print "usage: mklocm {start|stop|restart|status|clearlog} [debug]"
+		sys.exit(2)

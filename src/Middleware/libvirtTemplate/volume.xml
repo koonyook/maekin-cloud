@@ -1,0 +1,19 @@
+<volume>
+  <name>%(IMAGE_FILE_NAME)s</name>
+  <key>%(IMAGE_DIRECTORY_PATH)s%(IMAGE_FILE_NAME)s</key>
+  <source>
+  </source>
+  <capacity>3500000000</capacity>
+  <allocation>0</allocation>
+  <target>
+	<path>%(IMAGE_DIRECTORY_PATH)s%(IMAGE_FILE_NAME)s</path>
+    <format type='raw'/>
+    <permissions>
+      <mode>0600</mode>
+      <owner>107</owner>
+      <group>107</group>
+      <label>system_u:object_r:svirt_image_t:s0</label>
+    </permissions>
+  </target>
+</volume>
+

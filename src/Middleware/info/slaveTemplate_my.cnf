@@ -1,0 +1,32 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+#this line for remote connection
+bind-address=%(MY_IP_ADDRESS)s
+#these lines for collation
+default-character-set=utf8
+default-collation=utf8_general_ci
+character-set-server=utf8
+collation-server=utf8_general_ci
+init-connect='SET NAMES utf8'
+
+#these lines to be slave
+server-id=2
+master-host=%(MASTER_IP_ADDRESS)s
+master-connect-retry=60
+master-user=%(SLAVE_USER)s
+master-password=%(SLAVE_PASSWORD)s
+replicate-do-db=%(DB_NAME)s
+	
+relay-log = slave-relay.log
+relay-log-index = slave-relay-log.index
+
+[client]
+default-character-set=utf8
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

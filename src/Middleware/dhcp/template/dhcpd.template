@@ -1,0 +1,8 @@
+include "%(MAIN_PATH)sdhcp/template/header.conf";
+
+subnet %(SUBNET)s netmask %(NETMASK)s {
+	%(COMMENT_DEFAULT_ROUTE)soption routers %(DEFAULT_ROUTE)s;
+	%(COMMENT_DOMAIN_NAME_SERVERS)soption domain-name-servers %(DOMAIN_NAME_SERVERS)s;
+	
+%(BINDINGS)s
+}

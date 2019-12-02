@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+
+########################################
+### must link this file to /bin/mksh ###
+########################################
+
+import sys, time
+
+sys.path.append("/maekin/lib/middleware")
+
+from shell import shellLib
+
+if __name__ == "__main__":
+    shellLib.start()
