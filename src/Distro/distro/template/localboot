@@ -1,0 +1,4 @@
+default maekin
+prompt 0
+label maekin
+	localboot 0

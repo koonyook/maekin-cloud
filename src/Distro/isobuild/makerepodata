@@ -1,0 +1,4 @@
+#!/bin/bash
+rm -rf isolinux/repodata
+declare -x discinfo=`head -1 ./isolinux/.discinfo`
+createrepo -u "media://$discinfo" -g ~/kickstart_build/c6maekin-x86_64.xml ./isolinux

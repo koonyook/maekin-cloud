@@ -1,0 +1,3 @@
+#!/bin/bash
+declare -x discinfo=`head -1 ./isolinux/.discinfo`
+createrepo -u "media://$discinfo" -g ~/kickstart_build/comps.xml ./isolinux

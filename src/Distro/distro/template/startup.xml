@@ -1,0 +1,17 @@
+<startup>
+	<UUID>1</UUID>
+	<name>MaekinSystem</name>
+	<network id="x.x.x.x" mask="x.x.x.x" defaultRoute="x.x.x.x" />
+	<dns>
+		<dnsAddress IP="x.x.x.x" />
+		<dnsAddress IP="y.y.y.y" />
+	</dns>
+	<IPaddressPool>
+		<host>
+			<Bind MAC="11:22:33:44:55:66" IP="x.x.x.x" hostName="steam1.your.domain.com" />
+		</host>
+		<guest>
+			<IP start="x.x.x.x" stop="x.x.y.y" />
+		</guest>
+	</IPaddressPool>
+</startup>

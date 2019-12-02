@@ -1,0 +1,20 @@
+#!/bin/bash
+
+##############################################
+### must link this file to /sbin/maekintemplates ###
+##############################################
+if [ $# = 1 ]; then
+	if [ $1 = "install" ]; then
+		mkdir -p /media/cdrom
+		mount /dev/cdrom /media/cdrom
+		if [ $? -gt 0 ]; then
+			echo "Cannot mount /dev/cdrom"
+			exit
+		fi
+		rsync -v /media/cdrom/* /maekin/var/storage/templates/ --progress
+		umount /media/cdrom
+		rmdir /media/cdrom
+	fi
+else
+	echo "usage: $0 {install}"
+fi

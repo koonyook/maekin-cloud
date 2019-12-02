@@ -1,0 +1,10 @@
+default ks
+prompt 0
+
+label ks
+   kernel maekin/vmlinuz
+   append initrd=maekin/initrd.img method=http://%(server_ip)s/maekin devfs=nomount ks=http://%(server_ip)s/maekin/ks/ks.cfg
+
+label noks
+   kernel maekin/vmlinuz
+   append initrd=maekin/initrd.img method=http://%(server_ip)s/maekin devfs=nomount ks=http://%(server_ip)s/maekin/ks/noks.cfg

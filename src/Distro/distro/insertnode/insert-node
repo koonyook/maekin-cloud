@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+
+########################################
+### must link this file to /bin/hmsh ###
+########################################
+import sys
+sys.path.append("/maekin/lib/distro")
+
+from insertnode import insertNode
+
+if __name__ == "__main__":
+	app = insertNode()
+	app.insert_procedure()

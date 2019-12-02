@@ -1,0 +1,6 @@
+#!/bin/bash
+mkisofs -o c6maekin-`cat isolinux/maekin_data/rev`.iso -b isolinux.bin -c boot.cat -no-emul-boot \
+-boot-load-size 4 -boot-info-table -R -J -v -T isolinux/
+implantisomd5 c6maekin-`cat isolinux/maekin_data/rev`.iso
+#rm -f ../c6maekin.iso
+mv c6maekin*.iso ..

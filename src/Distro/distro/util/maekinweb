@@ -1,0 +1,24 @@
+#!/bin/bash
+
+##############################################
+### must link this file to /sbin/maekinweb ###
+##############################################
+if [ $# = 1 ]; then
+	if [ $1 = "enable" ]; then
+		chown root:apache /maekin/lib/managementtool/web
+		chmod 775 /maekin/lib/managementtool/web
+		chown root:apache /maekin/lib/managementtool/web/mysqlite
+		chmod 775 /maekin/lib/managementtool/web/mysqlite
+		cp /maekin/lib/managementtool/mkmt.conf /etc/httpd/conf.d/mkmt.conf
+		touch /maekin/var/maekin-web
+		service httpd start
+		chkconfig --add httpd
+	elif [ $1 = "disable" ]; then
+		rm -f /etc/httpd/conf.d/mkmt.conf
+		rm -f /maekin/var/maekin-web
+		service httpd stop
+		chkconfig --del httpd
+	fi
+else
+	echo "usage: $0 {enable|disable}"
+fi
