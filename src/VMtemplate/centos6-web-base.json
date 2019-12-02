@@ -1,0 +1,1 @@
+[{"description": "template for create web server", "minimumMemory": "200", "maximumMemory": "2048", "fileName": "centos6-web-base.img", "OS": "CentOS 6.2 Web", "size": "8589934592"}]
