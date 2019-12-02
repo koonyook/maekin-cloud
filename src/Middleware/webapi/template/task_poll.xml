@@ -1,0 +1,8 @@
+<task taskID="%(taskID)s" opcode="%(opcode)s">
+	<detail>%(detail)s</detail>
+	<status>%(status)s</status>
+	<finishStatus>%(finishStatus)s</finishStatus>
+	<createTimestamp>%(createTimestamp)s</createTimestamp>
+	<finishTimestamp>%(finishTimestamp)s</finishTimestamp>
+	<finishMessage>%(finishMessage)s</finishMessage>
+</task>

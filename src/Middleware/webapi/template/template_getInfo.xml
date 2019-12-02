@@ -1,0 +1,9 @@
+<template templateID="%(templateID)s">
+	<OS>%(OS)s</OS>
+	<size>%(size)s</size>
+	<description>%(description)s</description>
+	<minimumMemory>%(minimumMemory)s</minimumMemory>
+	<maximumMemory>%(maximumMemory)s</maximumMemory>
+	<activity>%(activity)s</activity>
+</template>
+

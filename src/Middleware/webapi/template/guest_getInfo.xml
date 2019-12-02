@@ -1,0 +1,17 @@
+<guest guestID="%(guestID)s" guestName="%(guestName)s">
+	<lastHostID>%(lastHostID)s</lastHostID>
+	<lastUUID>%(lastUUID)s</lastUUID>
+	
+	<address>
+		<MAC>%(MACAddress)s</MAC>
+		<IP>%(IPAddress)s</IP>
+	</address>
+	<templateID>%(templateID)s</templateID>
+	<limitation>
+		<memory>%(memory)s</memory>
+		<vCPU>%(vCPU)s</vCPU>
+		<inbound>%(inboundBandwidth)s</inbound>
+		<outbound>%(outboundBandwidth)s</outbound>
+	</limitation>
+</guest>
+

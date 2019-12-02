@@ -1,0 +1,8 @@
+<UUID>%(cloud_uuid)s</UUID>
+<name>%(cloud_name)s</name>
+<network id="%(network_id)s" mask="%(subnet_mask)s" defaultRoute="%(default_route)s" />
+<dns>%(dns_servers)s</dns>
+<IPaddressPool>
+	<guest>%(guestIPPoolList)s</guest>
+</IPaddressPool>
+<autoMode>%(auto_mode)s</autoMode>

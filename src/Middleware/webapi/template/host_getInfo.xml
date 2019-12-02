@@ -1,0 +1,29 @@
+<host hostID="%(hostID)s" hostName="%(hostName)s">
+	<status>%(status)s</status>
+	<activity>%(activity)s</activity>
+	<address>
+		<MAC>%(MAC)s</MAC>
+		<IP>%(IP)s</IP>
+	</address>
+	<function>
+		<isHost>%(isHost)s</isHost>
+		<isGlobalController>%(isGlobalController)s</isGlobalController>
+		<isInformationServer>%(isInformationServer)s</isInformationServer>
+		<isNFSServer>%(isNFSServer)s</isNFSServer>
+		<isCA>%(isCA)s</isCA>
+	</function>
+	<spec>
+		<memory>
+			<size>%(mem_size)s</size>
+			<type>%(mem_type)s</type>
+			<speed>%(mem_speed)s</speed>
+		</memory>
+		<cpu>
+			<model>%(cpu_model)s</model>
+			<number>%(cpu_number)s</number>
+			<frequency>%(cpu_speed)s</frequency>
+			<cache>%(cpu_cache)s</cache>
+		</cpu>
+	</spec>
+</host>
+

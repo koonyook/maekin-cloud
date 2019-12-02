@@ -1,0 +1,12 @@
+ip 158.108.34.85
+start 0.1 2
+work soft_work 3.0 2 8
+work soft_work 2.5 12 18
+work soft_work 2.0 22 28
+work soft_work 1.5 32 38
+work soft_work 1.0 42 48
+work soft_work 0.5 52 58
+work soft_work 0.35 62 68
+work soft_work 0.25 72 78
+work soft_work 3.0 82 88
+end

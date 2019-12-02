@@ -1,0 +1,12 @@
+ip 158.108.34.85
+start 1
+work soft_work 4 3 10 <--- do soft_work every 4 seconds from 3th minute until 10th minute,
+stop 12
+end
+ip 158.108.34.86
+start 0
+work soft_work 4 2 5
+stop 7
+start 10
+stop 13
+end

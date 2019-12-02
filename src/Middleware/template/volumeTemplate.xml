@@ -1,0 +1,19 @@
+<volume>
+  <name>%(DOMAIN_NAME)s.img</name>
+  <key>/var/lib/libvirt/images/%(DOMAIN_NAME)s.img</key>
+  <source>
+  </source>
+  <capacity>3500000000</capacity>
+  <allocation>0</allocation>
+  <target>
+	<path>/var/lib/libvirt/images/%(DOMAIN_NAME)s.img</path>
+    <format type='raw'/>
+    <permissions>
+      <mode>0600</mode>
+      <owner>107</owner>
+      <group>107</group>
+      <label>system_u:object_r:svirt_image_t:s0</label>
+    </permissions>
+  </target>
+</volume>
+

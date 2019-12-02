@@ -1,0 +1,5 @@
+<networkInfo hostID="%(hostID)s">
+	<tx>%(transmit_rate)s</tx>
+	<rx>%(recieve_rate)s</rx>
+</networkInfo>
+

@@ -1,0 +1,4 @@
+ip 158.108.34.85
+start 0.1 2
+work soft_work 3 0.2 5
+end

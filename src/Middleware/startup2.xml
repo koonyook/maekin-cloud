@@ -1,0 +1,21 @@
+<startup>
+	<UUID>1010011</UUID>
+	<name>Abcdef</name>
+	<network id="158.108.34.0" mask="255.255.255.128" defaultRoute="158.108.34.1" />
+	<dns>
+		<dnsAddress IP="158.108.2.67" />
+		<dnsAddress IP="158.108.2.70" />
+	</dns>
+	<IPaddressPool>
+		<host>
+			<Bind MAC="00:23:AE:B2:48:2A" IP="158.108.34.111" hostName="steam1.cpe.ku.ac.th" />
+			<Bind MAC="00:23:AE:B2:47:B4" IP="158.108.34.112" hostName="steam2.cpe.ku.ac.th" />
+			<Bind MAC="00:23:AE:B2:2C:8C" IP="158.108.34.113" hostName="steam3.cpe.ku.ac.th" />
+			<Bind MAC="00:23:AE:B2:49:14" IP="158.108.34.114" hostName="steam4.cpe.ku.ac.th" />
+			<Bind MAC="00:25:64:8E:03:76" IP="158.108.34.115" hostName="steam5.cpe.ku.ac.th" />
+		</host>
+		<guest>
+			<IP start="158.108.34.85" stop="158.108.34.104" />
+		</guest>
+	</IPaddressPool>
+</startup>

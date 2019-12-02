@@ -1,0 +1,37 @@
+ip 158.108.34.85
+start 0.5 1
+work soft_work 2.5 5.5 50
+end
+ip 158.108.34.86
+start 5 2
+work soft_work 1 10 50
+end
+ip 158.108.34.87
+start 7.5 3
+end
+ip 158.108.34.88
+start 10 1
+work soft_work 2.5 15 45
+end
+ip 158.108.34.89
+start 12 2
+work soft_work 1 17 45
+end
+ip 158.108.34.90
+start 14 3
+end
+ip 158.108.34.91
+start 15 1
+work soft_work 2.5 20 43
+end
+ip 158.108.34.92
+start 17 2
+work soft_work 1 22 40
+end
+ip 158.108.34.93
+start 20 3
+end
+ip 158.108.34.94
+start 23 1
+work soft_work 2.5 28 63
+end

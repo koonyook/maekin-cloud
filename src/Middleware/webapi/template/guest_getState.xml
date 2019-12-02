@@ -1,0 +1,6 @@
+<guest guestID="%(guestID)s" guestName="%(guestName)s">
+	<status>%(status)s</status>
+	<activity>%(activity)s</activity>
+	<runningState>%(runningState)s</runningState>
+</guest>
+

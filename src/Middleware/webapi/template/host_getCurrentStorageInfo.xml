@@ -1,0 +1,7 @@
+<storageInfo hostID="%(hostID)s">
+	<capacity>%(capacity)s</capacity>
+	<free>%(free)s</free>
+	<maekinUsage>%(maekin_usage)s</maekinUsage>
+	<imageUsage>%(image_usage)s</imageUsage>
+</storageInfo>
+

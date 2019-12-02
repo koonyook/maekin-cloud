@@ -1,0 +1,4 @@
+<cpuInfo hostID="%(hostID)s">
+	<average>%(average)s</average>
+</cpuInfo>
+

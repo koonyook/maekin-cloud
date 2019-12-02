@@ -1,0 +1,5 @@
+<memoryInfo hostID="%(hostID)s">
+	<memTotal unit="%(memTotalUnit)s">%(memTotal)s</memTotal>
+	<memFree unit="%(memFreeUnit)s">%(memFree)s</memFree>
+</memoryInfo>
+
