@@ -1,0 +1,102 @@
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108] mod_wsgi (pid=10340): Exception occurred processing WSGI script '/maekin/managementtool/web.wsgi'.
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108] Traceback (most recent call last):
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 272, in __call__
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     response = self.get_response(request)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 169, in get_response
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     response = self.handle_uncaught_exception(request, resolver, sys.exc_info())
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 203, in handle_uncaught_exception
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return debug.technical_500_response(request, *exc_info)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 59, in technical_500_response
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     html = reporter.get_traceback_html()
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 151, in get_traceback_html
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return t.render(c)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/base.py", line 123, in render
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return self._render(context)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/base.py", line 117, in _render
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return self.nodelist.render(context)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/base.py", line 744, in render
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     bits.append(self.render_node(node, context))
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 73, in render_node
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     result = node.render(context)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 90, in render
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     output = self.filter_expression.resolve(context)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/base.py", line 536, in resolve
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     new_obj = func(obj, *arg_vals)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/defaultfilters.py", line 695, in date
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return format(value, arg)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 285, in format
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return df.format(format_string)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     pieces.append(force_unicode(getattr(self, piece)()))
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 191, in r
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return self.format('D, j M Y H:i:s O')
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     pieces.append(force_unicode(getattr(self, piece)()))
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/encoding.py", line 71, in force_unicode
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     s = unicode(s)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 206, in __unicode_cast
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return self.__func(*self.__args, **self.__kw)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 81, in ugettext
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return _trans.ugettext(message)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 286, in ugettext
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return do_translate(message, 'ugettext')
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 276, in do_translate
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     _default = translation(settings.LANGUAGE_CODE)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 185, in translation
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     default_translation = _fetch(settings.LANGUAGE_CODE)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 162, in _fetch
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     app = import_module(appname)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/importlib.py", line 35, in import_module
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     __import__(name)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108] TemplateSyntaxError: Caught ImportError while rendering: No module named mkmt
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108] mod_wsgi (pid=10341): Exception occurred processing WSGI script '/maekin/managementtool/web.wsgi'.
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108] Traceback (most recent call last):
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 272, in __call__
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     response = self.get_response(request)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 169, in get_response
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     response = self.handle_uncaught_exception(request, resolver, sys.exc_info())
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 203, in handle_uncaught_exception
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return debug.technical_500_response(request, *exc_info)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 59, in technical_500_response
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     html = reporter.get_traceback_html()
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 151, in get_traceback_html
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return t.render(c)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/base.py", line 123, in render
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return self._render(context)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/base.py", line 117, in _render
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return self.nodelist.render(context)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/base.py", line 744, in render
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     bits.append(self.render_node(node, context))
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 73, in render_node
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     result = node.render(context)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 90, in render
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     output = self.filter_expression.resolve(context)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/base.py", line 536, in resolve
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     new_obj = func(obj, *arg_vals)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/template/defaultfilters.py", line 695, in date
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return format(value, arg)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 285, in format
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return df.format(format_string)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     pieces.append(force_unicode(getattr(self, piece)()))
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 191, in r
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return self.format('D, j M Y H:i:s O')
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     pieces.append(force_unicode(getattr(self, piece)()))
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/encoding.py", line 71, in force_unicode
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     s = unicode(s)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 206, in __unicode_cast
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return self.__func(*self.__args, **self.__kw)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 81, in ugettext
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return _trans.ugettext(message)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 286, in ugettext
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     return do_translate(message, 'ugettext')
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 276, in do_translate
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     _default = translation(settings.LANGUAGE_CODE)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 185, in translation
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     default_translation = _fetch(settings.LANGUAGE_CODE)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 162, in _fetch
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     app = import_module(appname)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]   File "/usr/lib/python2.6/site-packages/django/utils/importlib.py", line 35, in import_module
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108]     __import__(name)
+[Tue Jan 10 07:59:58 2012] [error] [client 158.108.181.108] TemplateSyntaxError: Caught ImportError while rendering: No module named mkmt

@@ -1,0 +1,24 @@
+{% extends "base_guest.html" %}
+{% block script %}
+	{{ block.super }}
+	<script type="text/javascript" src="/media/script/jquery.contextMenu.js"></script>
+	<script type="text/javascript" src="/media/script/jquery.ui.position.js"></script>
+	<script type="text/javascript" src="/media/script/dist/jquery.jqplot.min.js"></script>
+	<script type="text/javascript" src="/media/script/dist/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+	<script type="text/javascript" src="/media/script/dist/plugins/jqplot.canvasTextRenderer.min.js"></script>
+	<script type="text/javascript" src="/media/script/dist/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+{% endblock %}
+{% block headerContent%}
+	<div id="top_menu">
+		{% block sidebar %}
+		{% endblock %}
+	</div>
+	{% if user.is_authenticated %}
+		{% block user_detail %}
+			<div id="user_detail">
+			<span class="currentUserName"><a href="/user">{{user.username}}</a></span><br/>
+			<a class="logoutLink" href="/logout">logout</a>
+			</div>
+		{% endblock%}
+	{% endif %}
+{% endblock %}

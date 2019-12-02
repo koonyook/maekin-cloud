@@ -1,0 +1,299 @@
+{% extends "base_user.html" %}
+{% block title %}
+	Host Management : {{block.super}}	
+{% endblock%}
+{% block script %}
+{{block.super}}
+	<script type="text/javascript" src="/media/script/mkmt_script_graph.js"></script>
+	<script type="text/javascript" src="/media/script/mkmt_script_task.js"></script>
+{% endblock%}
+{% block sidebar %}
+		<li ><a id="top_menu_vi" href="/vi" class="top_menu">VI</a></li>
+		<li ><a id="top_menu_host" href="/host" class="top_menu current_top_menu" >Host</a></li>
+		<li ><a id="top_menu_vi" href="/request" class="top_menu">Request</a></li>
+		<li ><a id="top_menu_cloud" href="/cloud" class="top_menu">Cloud</a></li> 
+{% endblock %}
+{% block content %}
+
+
+<div id="host_list" >
+	{% for host in allhost %}
+	<div id="host_{{host.id}}" class="host_object"> 
+		<div id="host_avatar_{{host.id}}" class="host_avatar 
+		{% if host.status == 'shutoff'%}
+			host_off
+		{% else %}
+			{% if host.status == 'running' %}
+				host_running
+			{% else%}
+				host_suspend
+			{% endif %}
+		{% endif %}
+		"></div>
+		<div id="host_info_{{host.id}}" class="host_info">
+			<div id="host_name_{{host.id}}" class="host_name">{{host.hostName}}</div>
+			<div id="host_mac_{{host.id}}" class="host_IP">{{host.IP}}</div>
+			<div id="host_status_{{host.id}}" style="display:none">{{host.status}}</div>
+			<div id="host_activity_div_{{host.id}}" class="host_activity" style="{% if host.activity == 'None'%}display:none{% endif %}">
+				<div class="host_act_img"><img src="/media/image/waiting.gif"></div>
+				<span id="host_activity_{{host.id}}">{{ host.activity}}</span>
+			</div>
+			<div id="host_command_{{host.id}}" class="host_command_list">
+				<img id="host_command_play_{{host.id}}" class="{% if host.status == 'running' or host.activity != 'None'%}host_command_dis{%else%}host_command{%endif%}" value="start"src="/media/image/bttn_play.png"></img>
+				<img id="host_command_off_{{host.id}}" class="{% if host.status == 'shutoff' or host.activity != 'None'%}host_command_dis{%else%}host_command{%endif%}" value="close"src="/media/image/bttn_off.png"></img>
+				<img class="host_command host_command_advance" id="host_command_advance_{{host.id}}"  value="advance" src="/media/image/bttn_advance.png"></img>
+			</div>
+			<div class="host_advance_form" id="host_advance_form_{{host.id}}" style="display:none">
+				<span class="title_wrap">Host Info</span>
+				<div class="Host_advance_col_left">
+					<text class="host_label_name_ip">
+						<text class="host_label_name host_adv_label">
+							<span class="host_advance_name">{{host.hostName}}</span>
+						</text>
+						<text class="host_label_ip host_adv_label" >
+							<span class="host_advance_ip">{{host.IP}}</span>
+						</text>
+					</text>
+					<div id="host_admenu_{{host.id}}" class="host_advance_menu">
+						<img src="/media/image/bttn_play.png"  value="start" id="bttn_host_advance_play_{{host.id}}" class="{% if host.status == 'running' or host.activity != 'None'%}host_advance_command_dis{%else%}host_advance_command{%endif%}" >
+						<img src="/media/image/bttn_off.png"  value="close" id="bttn_host_advance_off_{{host.id}}" class="{% if host.status == 'shutoff' or host.activity != 'None'%}host_advance_command_dis{%else%}host_advance_command{%endif%}">
+						<img src="/media/image/bttn_delete.png"  value="destroy" id="bttn_host_advance_delete_{{host.id}}" class="host_advance_command">
+					</div>
+					<div id="host_graph_{{host.id}}" class="host_graph" >
+						<!-- <span class="graph_label">CPU</span> -->
+						<div id="host_graph_cpu_{{host.id}}" class="host_graph_info"></div>
+						<!-- <span class="graph_label">Memory</span> -->
+						<div id="host_graph_mem_{{host.id}}" class="host_graph_info"></div> 
+						<!-- <span class="graph_label">Network</span> -->
+						<div id="host_graph_net_{{host.id}}" class="host_graph_info"></div>
+						<!-- <span class="graph_label">IO</span> -->
+						<div id="host_graph_storage_{{host.id}}" class="host_graph_info"></div>
+					</div>
+				</div>
+				<div class="host_advance_col_right">
+				
+					<div class="host_advance_info" class="host_advance_info">
+						<div class ="host_advance_info_label">Cloud Info</div>
+						<text><div class="host_advance_info_value_label">isGlobalController</div><span class="host_advance_MAC">{{host.isGlobalController}}</span></text>
+						<text><div  class="host_advance_info_value_label">isInformationServer</div><span class="host_advance_MAC">{{host.isInformationServer}}</span></text>
+						<text><div  class="host_advance_info_value_label">isNFSServer</div><span class="host_advance_MAC">{{host.isNFSServer}}</span></text>
+						<text><div  class="host_advance_info_value_label">isCA</div><span class="host_advance_MAC">{{host.isCA}}</span></text>
+					</div>
+					
+					<div id="host_advance_net_info" class="host_advance_info">
+						<div class ="host_advance_info_label">Network</div>
+						<text ><div  class="host_advance_info_value_label">IP</div><span class="host_advance_ip2">{{host.IP}}</span></text>
+						<text><div  class="host_advance_info_value_label">MAC Address</div><span class="host_advance_MAC">{{host.MAC}}</span></text>
+
+					</div>
+					
+					<div id="host_advance_spec_info" class="host_advance_info">
+						<div class ="host_advance_info_label">Specification</div>
+						<text><div  class="host_advance_info_value_label">CPU Model</div><span class="host_advance_CPU">{{host.cpu_model}}</span></text>
+						<text><div  class="host_advance_info_value_label">CPU Core</div><span class="host_advance_CPU">{{host.cpu_number}}</span></text>
+						<text><div  class="host_advance_info_value_label">CPU Frequency</div><span class="host_advance_CPU">{{host.cpu_freq}}</span></text>
+						<text><div  class="host_advance_info_value_label">CPU Cache</div><span class="host_advance_CPU">{{host.cpu_cache}}</span></text>
+						<text><div  class="host_advance_info_value_label">Memory</div><span class="host_advance_RAM">{{host.mem_size}}</span></text>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+	
+</div>
+<div id="addingHost_label" style="display:none">
+			Adding New Host
+</div>
+<input type="submit" value="Add Host" class="ShowAdddHost"/>
+<form method="POST" action="/addHost" id="addHostForm" style="display:none">
+	<span class="title_wrap">Add New Host</span>
+	{% csrf_token %}
+	<div id="addHostInfo">
+		Hostname <div class="param"><input type="text" name="new_host_Name"  /></div><br/>
+		MAC  <div class="param"><input type="text" name="new_host_MAC"  /></div><br/>
+		IP  <div class="param"><input type="text" name="new_host_IP"  /></div><br/>
+		<div class="submitBttnContainer">
+			<input type="submit" id="AddHost"/>
+		</div>
+	</div>
+</form>
+<script>
+function hostControl(){
+	hostID = getID($(this));
+	command = $(this).attr('value');
+	if ( command == "advance")
+		showAdvanceHostInfo(hostID);
+	else{
+		removeWrap();
+		alertSetup(command+" Host ID: "+hostID,function(){
+			removeWrap();
+			$("#host_command_play_"+hostID).attr('class',"host_command_dis");
+			$("#host_command_off_"+hostID).attr('class',"host_command_dis");
+			$("#host_admenu_"+hostID).children(".host_advance_command").attr('class',"host_advance_command_dis");
+			postBack("/controlHost",{hostID:hostID,comm:command},hostCheckWaiting);
+			}
+		,function(){removeWrap();});
+		/*postBack("/controlHost",{hostID:hostID,comm:command},function(res,status){
+			//alert(res.responseText)
+			if(status == "success"){
+				if(res.responseText != 'clear'){
+					//alert(">"+command);
+					if(command == 'destroy'){
+						window.location.reload();
+					}
+					PollHostActivity(hostID);
+				}	
+				else{
+					setHostAvatar(hostID,$("#host_status_"+hostID).text())
+				}
+			}
+		});*/
+		//setTimeout("PollHostActivity("+hostID+")",2000);
+	}
+}
+function gethostInfo(hostid,callback){
+	var data = {com:"getHostInfo",hostID:hostid}
+	var args = {type:"GET",url:'/queryData',data:data,complete:callback}
+	$.ajax(args)
+}
+function showAdvanceHostInfo(hostID){
+	addWrap($("#host_advance_form_"+hostID),2)
+	pollStatGraph(hostID,false,true,"host_graph_cpu_"+hostID,"host_graph_mem_"+hostID,"host_graph_net_"+hostID,"host_graph_storage_"+hostID)
+}
+$(".host_command_advance").click(function(){
+	showAdvanceHostInfo(getID($(this)));
+	});
+function setHostAvatar(hostID,status){
+	var newAvatarclass = '';
+	if (status == 'shutoff'){
+		newAvatarclass = 'host_off'
+		playclass = 'host_command'
+		offclass = 'host_command_dis'
+		playAdvanceClass = 'host_advance_command'
+		offAdvanceClass = 'host_advance_command_dis'
+	}
+	else if(status == 'running'){
+		newAvatarclass = 'host_running'
+		playclass = 'host_command_dis'
+		offclass = 'host_command'
+		playAdvanceClass = 'host_advance_command_dis'
+		offAdvanceClass = 'host_advance_command'
+	}
+	else if(status == 'suspended' ){
+		newAvatarclass = 'host_suspend'
+		playclass = 'host_command'
+		offclass = 'host_command'
+		playAdvanceClass = 'host_advance_command'
+		offAdvanceClass = 'host_advance_command'
+	}
+	$("#host_avatar_"+hostID).attr('class','host_avatar '+newAvatarclass)
+	$("#host_command_play_"+hostID).attr('class',playclass)
+	$("#host_command_off_"+hostID).attr('class',offclass)
+	$("#bttn_host_advance_play_"+hostID).attr('class',playAdvanceClass)
+	$("#bttn_host_advance_off_"+hostID).attr('class',offAdvanceClass)
+	$("#bttn_host_advance_delete_"+hostID).attr('class',"host_advance_command")
+	$("#host_command_"+hostID).children(".host_command").unbind();
+	$("#host_admenu_"+hostID).children(".host_advance_command").unbind()
+	$("#host_command_"+hostID).children(".host_command").click(hostControl)
+	$("#host_admenu_"+hostID).children(".host_advance_command").click(hostControl)
+}
+
+function PollHostActivity (hostid){
+	postBack("/sendComm",{com:"/host/getInfo?hostID="+hostid},function(res,status){
+			if(status == "success"){
+				checkHostID = modifyHostActivity(res,status);
+				//alert(checkVMID);
+				if(checkHostID != -1){
+					setTimeout("PollHostActivity("+hostid+")",delayPollTime)
+				}
+			}
+			else{
+				//popAlert(res.responseText);
+			}
+		}
+	)
+}
+function modifyHostActivity(res,status){
+	if(status == "success"){
+		//alert(res.responseText);
+		var xmlDoc = $.parseXML( res.responseText )
+		var $xml = $( xmlDoc )
+		if ($xml.find("response").attr("type") == 'success'){
+			var $act = $xml.find("activity")
+			var id = $xml.find("host").attr("hostID")
+			var act = ["none","shuting down","booting","suspending","waking"][$act.text()];
+			var status = ["shutoff","running","suspended"][$xml.find("status").text()]
+			$("#host_activity_"+id).text(act)
+			$("#host_status_"+id).text(status)
+			//popAlert(act+"   "+status);
+			if(act != "none"){
+				$("#host_command_play_"+id).attr('class',"host_command_dis")
+				$("#host_command_off_"+id).attr('class',"host_command_dis")
+				$("#host_admenu_"+id).children(".host_advance_command").attr('class',"host_advance_command_dis")
+				$("div#host_activity_div_"+id).show();
+				//setTimeout("pollHostActivity("+id+")",2000);
+				return id;
+			}
+			else {
+				$("div#host_activity_div_"+id).hide();
+				setHostAvatar(id,status);
+				return -1;
+			}
+		}
+		else{
+			if($xml.find("message").text() == "hostID not found"){
+				$("div#host_activity_div_"+hostid).hide();
+			}
+			return -1;
+		}
+	}
+	else{
+		//alert("error"+res.responseText)
+	}
+}
+function checkHostActivityOnce(hostid){
+
+	postBack("/sendComm",{com:"/host/getInfo?hostID="+hostid},modifyHostActivity);
+}
+function checAllHostkActivity (){
+	$(".host_activity").each(function(){
+		if($(this).text().trim() != 'None'){
+			id = $(this).attr('id').split('_')[3];
+			setTimeout("PollHostActivity("+id+")",2000);
+		}
+	})
+}
+var initfunction = function(){
+	$("form#AddHost").hide();
+	checAllHostkActivity();
+}
+function removingHost(res,status){
+
+}
+function addingHost(){
+	removeWrap();
+	$("#addingHost_label").toggle();
+	var data = $(this).serializeArray();
+	postBack("/addHost",$.param(data),hostCheckWaiting);
+	return false;
+}
+$(document).ready(initfunction);
+$(".ShowAdddHost").click(function(){ addWrap($("#addHostForm"),0)})
+//$("input.ShowAdddHost").click(function(){ $("form#AddHost").toggle(); return false; })
+$("a.removeBttn").click(function(){
+	alertSetup("Remove host ")
+	hostID = $(this).attr("id").split('_')[1]
+	var data = {hostID:hostID}
+	alert($(this).attr("id").split('_')[1]);
+	var args = {type:"POST",url:'/removeHost',data:data,complete:removingHost};
+	$.ajax(args)
+	return false;
+ } )
+$("#addHostForm").submit(addingHost);
+$(".host_command").click(hostControl)
+$(".host_advance_command").click(hostControl)
+</script>
+
+{% endblock%}
+

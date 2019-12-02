@@ -1,0 +1,93 @@
+/////////////////////////////////
+// To Install Management Tools
+/////////////////////////////////
+
+yum install httpd
+	y
+	y
+yum install httpd-devel
+	y
+yum install python-devel
+	y
+yum install gcc
+	y
+/////////////////////////////////
+// Install mod_wsgi
+/////////////////////////////////
+mkdir /src
+cd /src
+	yum install wget
+wget http://modwsgi.googlecode.com/files/mod_wsgi-3.3.tar.gz
+tar xvfz mod_wsgi-3.3.tar.gz
+cd mod_wsgi-3.3         
+./configure
+	yum install make
+make
+make install
+vi /etc/httpd/conf/httpd.conf
+	>> add LoadModule wsgi_module modules/mod_wsgi.so
+service httpd restart
+
+/////////////////////////////////
+// Install django
+/////////////////////////////////
+cd /src
+wget http://www.djangoproject.com/download/1.3.1/tarball/
+tar xzvf Django-1.3.1.tar.gz
+cd Django-1.3.1
+python setup.py install
+cd /src
+
+/////////////////////////////////
+// Create django project
+/////////////////////////////////
+mkdir /maekin/lib/managementtool
+cd /maekin/lib/managementtool
+mkdir /maekin/lib/managementtool/weblog
+//python /usr/lib/python2.6/site-packages/django/bin/django-admin.py startproject web
+
+yum install subversion
+svn co http://158.108.34.6/svn/maekin/ManagementTools/web/
+
+vi web.wsgi
+	import os, sys
+	sys.path.append('/maekin/lib/managementtool/')
+	sys.path.append('/maekin/lib/managementtool/web')
+	sys.path.append('/maekin/lib/managementtool/web/utils')
+	os.environ['DJANGO_SETTINGS_MODULE'] = 'web.settings'
+	import django.core.handlers.wsgi
+	application = django.core.handlers.wsgi.WSGIHandler()
+//vi /maekin/lib/managementtool/web/settings.py
+//	STATIC_ROOT = os.path.join(os.getcwd(),'mkmt/static')
+//	--ADD Header--:
+//	sys.path.append(os.getcwd())
+//	--ADD--
+//	 TEMPLATE_DIRS = os.path.join(os.getcwd(),'templates'),
+/////////////////////////////////
+// Config with Apache
+/////////////////////////////////
+vi /etc/httpd/conf.d/mkmt.conf
+  <VirtualHost *:80>
+  ServerName [[158.108.34.111]]
+  UseCanonicalName Off
+  ErrorLog /maekin/lib/managementtool/weblog/error_log
+  Alias /admin_media /opt/python2.6/lib/python2.6/site-packages/django/contrib/admin/media
+  Alias /static /maekin/lib/managementtool/web/static
+  Alias /media /maekin/lib/managementtool/web/media
+
+  WSGIScriptAlias / /maekin/lib/managementtool/web.wsgi
+  WSGIDaemonProcess iproj processes=7 threads=1 display-name=%{GROUP}
+
+</VirtualHost>
+
+/////////////////////////////////
+//Restart Apache
+/////////////////////////////////
+service httpd restart
+chkconfig --levels 235 httpd on	<< run at startup
+
+/////////////////////////////////
+//Change Permission
+/////////////////////////////////
+chmod 777 web/mysqlite
+chmod 777 web

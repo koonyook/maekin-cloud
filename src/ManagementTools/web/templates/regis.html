@@ -1,0 +1,83 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div id="register_form">
+	<div id="register_logo">
+		<a href="/"><img class="logo" src="/media/image/icon_3.png"/></a>
+	</div>
+	{% if not regis_complete %}
+		<form action="/register" method="post">
+		{% csrf_token %}
+		Username <br /><input type="text" class="regis_input" id="username"name="username" value="{{input_username}}" />
+			<br /><div id="error_username" class="error_label">{{error_username}}</div><br />
+		Password <br /><input type="password" id="password" class="regis_input" name="password" value="{{input_password}}" /><br/>
+		Confirm Password <br /><input type="password" id="confirm_password" class="regis_input" value="{{input_password}}" /><br/>
+		<div id="error_password"class="error_label">{{error_password}}</div><br />
+		Email <br /><input type="text" class="regis_input" id="email" name="email" value="{{input_email}}" />
+			<br /><div id="error_email" class="error_label">{{error_email}}</div><br />
+		<br>
+		<br/>
+		<input type="checkbox" id="agree_box"/>I agree to the <a id="tos" href="#" style="text-decoration: underline;">term of service</a>
+		<br/>
+		<input type="submit" id="regis_bttn" value="Sign Up" class="regis_bttn" disabled="disabled"/>
+		<a href="/" class="regis_cancel">Cancel</a>
+		</form>
+		
+	{% else %}
+		<span id="regis_complete">
+		Registered Complete
+		</span><br>
+<a href="/"><input type="submit" class="regis_bttn" style="left: 13%;"value="Back to Home"></a>
+	{% endif %}
+	<div id="Register_Agreement" style="display:none">
+		<span class="title_wrap">Rules & Agreements</span>
+		<div id="TOS">
+		<span class="TOSspan">
+		   1. ACCEPTANCE OF TERMS<br/>The Open Source Initiative ("OSI") provides the information on this Web site as provided in these Terms of Service ("TOS"). OSI may update the TOS at any time and without prior notice by posting a new version at http://www.opensource.org. The information on this site and your use of it is subject to the most recent version of the TOS posted. <br/><br/>2. DESCRIPTION OF SERVICE<br/>OSI provides you with access to discussion lists, forums, licenses and a variety of other services. ("OSI Service"). Unless explicitly stated otherwise, any new features that augment or enhance the current OSI Service shall be subject to the TOS.<br/><br/>3. YOUR REGISTRATION OBLIGATIONS<br/>In consideration of your use of the OSI Service, you represent that you are of legal age to form a binding contract and are not a person barred from receiving services under the laws of the United States or other applicable jurisdiction. You also agree to:<br/>(a) provide true, accurate, current and complete information about yourself as prompted by the OSI Service's registration form (the "Registration Data") and<br/>(b) maintain and promptly update the Registration Data to keep it true, accurate, current and complete. If you provide any information that is untrue, inaccurate, not current or incomplete, or OSI has reasonable grounds to suspect that such information is untrue, inaccurate, not current or incomplete, OSI has the right to suspend or terminate your account and refuse any and all current or future use of the OSI Services (or any portion thereof).<br/><br/>4. OSI PRIVACY POLICY<br/>Registration Data and certain other information about you is subject to our Privacy Policy.<br/><br/>5. CONDUCT<br/>You understand that all information, data, text, software, graphics or other materials ("Content"), whether publicly posted or privately transmitted, are the sole responsibility of the person from whom such Content originated. This means that you, and not OSI, are entirely responsible for all Content that you upload, post, email, transmit or otherwise make available via the OSI Service. OSI does not control the Content posted via the OSI Service and, as such, does not guarantee the accuracy, integrity or quality of such Content. Under no circumstances will OSI be liable in any way for any Content, including, but not limited to, any errors or omissions in any Content, or any loss or damage of any kind incurred as a result of the use of any Content posted, emailed, transmitted or otherwise made available via the OSI Service. You agree to not use the OSI Service to:<br/>    1) upload, post, email, transmit or otherwise make available any Content that is unlawful, harmful, threatening, abusive, harassing, tortuous, defamatory, vulgar, obscene, libelous, invasive of another's privacy, hateful, or racially, ethnically or otherwise objectionable or harm minors;<br/>    2) impersonate any person or entity or falsely state or otherwise misrepresent your affiliation with a person or entity;<br/>    3) forge headers or otherwise manipulate identifiers in order to disguise the origin of any Content transmitted through the OSI Service;<br/>    4) upload, post, email, transmit or otherwise make available any Content that you do not have a right to make available under any law or under contractual or other relationships;<br/>    5) upload, post, email, transmit or otherwise make available any Content that infringes any patent, trademark, trade secret, copyright or other proprietary rights of any party;<br/>    6) upload, post, email, transmit or otherwise make available any unsolicited or unauthorized advertising, promotional materials, "junk mail," "spam," or any other form of solicitation;<br/>    7) upload, post, email, transmit or otherwise make available any material that contains software viruses or any other computer code, files or programs designed to interrupt, destroy or limit the functionality of any computer software or hardware or telecommunications equipment;<br/>    8) disrupt the normal flow of dialogue, or otherwise act in a manner that negatively affects other users' ability to engage in discussions or exchanges;<br/>    9) interfere with or disrupt the OSI Service or servers or networks connected to the OSI Service, or disobey any requirements, procedures, policies or regulations of networks connected to the OSI Service;<br/>    10) intentionally or unintentionally violate any applicable local, state, national or international law,<br/>    11) "stalk" or otherwise harass another; and/or<br/>    12) collect or store personal data about other users in connection with the prohibited conduct and activities set forth in paragraphs above. You acknowledge that OSI may or may not pre-screen Content, but that OSI and its designees shall have the right (but not the obligation) in their sole discretion to pre-screen, refuse, move, or remove any Content that is available via the OSI Service and which violates the TOS. You agree that you must evaluate, and bear all risks associated with, the use of any Content, including any reliance on the accuracy, completeness, or usefulness of such Content. You acknowledge, consent and agree that OSI may access, preserve and disclose your account information and Content if required to do so by law or in a good faith belief that such access preservation or disclosure is reasonably necessary to:            <br/>    (a) comply with legal process;<br/>        (b) enforce the TOS;<br/>        (c) respond to claims that any Content violates the rights of third parties;<br/>        (d) respond to your requests for customer service; or (e) protect the rights, property or personal safety of OSI its users and the public.<br/><br/>6. CONTENT MADE AVAILABLE FOR INCLUSION ON THE OSI SERVICE<br/>OSI does not claim ownership of Content you submit or make available for inclusion via the OSI Service. However, with respect to Content you submit or make available for inclusion on the publicly available OSI Service, you irrevocably grant OSI the perpetual, worldwide, royalty-free and non-exclusive license, with the right to sublicense through multiple tiers of sublicensees, to use, distribute, reproduce, modify, adapt, publicly perform and publicly display such Content, in whole or in part, on the OSI Service or other publications by OSI in any media whether now existing or which come into the existence into the future and to provide that information under the license set forth on the initial page of the http://www.opensource.org/ Web site. And for Content you submit for private discussions, you grant OSI the worldwide, royalty-free and non-exclusive license to use, distribute, reproduce, modify, adapt, publicly perform and publicly display such Content on the associated private discussion group.<br/><br/>7. INDEMNITY<br/>You agree to indemnify and hold OSI and its subsidiaries, affiliates, officers, agents, employees, partners and licensors harmless from any claim or demand, including but not limited to reasonable attorneys' fees, made by any third party due to or arising out of Content you submit, post, transmit or otherwise make available through the Service, your use of the OSI Service, your connection to the Service, your violation of the TOS, or your violation of any rights of another.<br/><br/>8. MODIFICATIONS TO OSI SERVICE You acknowledge that OSI may establish general practices and limits concerning use of the OSI Service, including without limitation the maximum number of days that email messages, message board postings or other uploaded Content will be retained by the OSI Service.. You further acknowledge that OSI reserves the right to modify these general practices and limits from time to time. OSI reserves the right at any time and from time to time to modify or discontinue, temporarily or permanently, the OSI Service (or any part thereof) with or without notice. You agree that OSI shall not be liable to you or to any third party for any modification, suspension or discontinuance of the OSI Service.<br/><br/>9. TERMINATION<br/>You agree that OSI may terminate your access to the OSI Service for violations of the TOS and/or requests by authorized law enforcement or other government agencies.<br/><br/>10. LINKS<br/>The OSI Service may provide, or third parties may provide, links to other World Wide Web sites or resources. Because OSI has no control over such sites and resources, you acknowledge and agree that OSI is not responsible for the availability of such external sites or resources, and does not endorse and is not responsible or liable for any Content, advertising, products or other materials on or available from such sites or resources. You further acknowledge and agree that OSI shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such Content, goods or services available on or through any such site or resource.<br/><br/>11. DISCLAIMER OF WARRANTIES<br/>You expressly understand and agree that: Your use of the OSI service is at your sole risk. OSI service is provided on an "as is" and "as available" basis. OSI and its subsidiaries, affiliates, officers, employees and licensors expressly disclaim all warranties of any kind, whether express or implied, including, but not limited to the implied warranties of merchantability, fitness for a particular purpose and non-infringement. OSI and its subsidiaries, affiliates, officers, employees and licensors make no warranty that<br/>(i) The OSI service will meet your requirements;<br/>(ii) The OSI service will be uninterrupted, timely, secure or error-free and<br/>(iii) The results that may be obtained from the use of the OSI service will be accurate or reliable. No advice or information, whether oral or written, obtained by you from OSI or through or from the service shall create any warranty not expressly stated in the TOS.<br/><br/>12. LIMITATION OF LIABILITY<br/>You expressly understand and agree that OSI and its subsidiaries, affiliates, officers, employees, agents, partners and licensors shall not be liable to you for any direct, indirect, incidental, special, consequential or exemplary damages, including, but not limited to, damages for loss of profits, goodwill, use, data or other intangible losses (even if osi has been advised of the possibility of such damages), resulting from the use or the inability to use the OSI service.<br/><br/>13. NOTICE AND PROCEDURE FOR MAKING CLAIMS OF COPYRIGHT INFRINGEMENT<br/>OSI respects the copyright of others, and we ask our users to do the same. OSI may, in appropriate circumstances and at its discretion, disable and/or terminate the access of users who may be repeat infringers. If you believe that your work has been copied in a way that constitutes copyright infringement, please provide OSI's Copyright Agent the following information: an electronic or physical signature of the person authorized to act on behalf of the owner of the copyright; a description of the copyrighted work that you claim has been infringed; a description of where the material that you claim is infringing is located on the site; your address, telephone number, and email address; a statement by you that you have a good faith belief that the disputed use is not authorized by the copyright owner, its agent, or the law; a statement by you, made under penalty of perjury, that the above information in your Notice is accurate and that you are the copyright owner or authorized to act on the copyright owner's behalf.
+		</span>
+		</div>
+	</div>
+</div>
+<script>
+$("#regis_bttn").click(function(){
+	$("#error_username").text('');
+	$("#error_password").text('');
+	$("#error_email").text('');
+	var clear = true;
+	if($("#username").val() == ''){
+		$("#error_username").text('Username is required')
+		clear =  false;
+	}
+	if($("#password").val() == ''){
+		$("#error_password").text('Password is required')
+		clear =  false;
+	}
+	else if($("#password").val() != $("#confirm_password").val()){
+		$("#error_password").text("Password not matched")
+		clear =  false;
+	}
+	if($("#email").val() == ''){
+		$("#error_email").text('Email is required')
+		clear =  false;
+	}
+	else if(!isValidEmailAddress($("#email").val() )){
+		$("#error_email").text('Email is invalid')
+		clear =  false;
+	}
+	if(!clear)
+		return false;
+})
+$("#agree_box").click(function(){
+	if ($("input:checked").length > 0)
+		$("#regis_bttn").removeAttr("disabled");
+	else
+		$("#regis_bttn").attr("disabled", "disabled");
+})
+$("#tos").click(function(){
+	addWrap($('#Register_Agreement'),0); 
+	$("#wrap_div").attr("style","width:70%;")
+	return false;
+	}
+);
+</script>
+{% endblock %}

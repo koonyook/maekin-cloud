@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block wrap %}
+
+<div id="center" class="index_page">
+	<div id="index_logo">
+		<img class="logo" src="/media/image/icon_3.png"/>
+	</div>
+	<div id="index_login_form" class="login_form">
+		<form action="/login" method="post">
+		{% csrf_token %}
+		<span class="label">Username</span><br/><input type="text" name="username" value="{{filled_username}}" /><br /><br/>
+		<span class="label">Password</span><br/><input type="password" name="password" value="" /><br />
+		<div class="error_label">{{error}}</div>
+		<div id="login_bttn"><input type="submit" value="Login" id="login_bttn" /> <a href="/register">Sign Up</a></div>
+		</form>
+	</div>
+</div>	
+{% endblock %}

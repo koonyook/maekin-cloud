@@ -1,0 +1,13 @@
+cd /maekin/lib
+svn co http://158.108.34.6/svn/maekin/ManagementTools/
+
+cd /maekin/lib/managementtool/web
+rm mysqlite
+python manage.py syncdb
+chmod 777 mysqlite
+cd /maekin/lib/managementtool/
+mv mkmt.conf /etc/httpd/conf.d/mkmt.conf
+chmod 777 web
+
+service httpd start
+chkconfig --levels 235 httpd on

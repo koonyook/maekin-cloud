@@ -1,0 +1,77 @@
+{% extends "base_admin.html" %}
+
+{% block title %}
+	Cloud config: {{block.super}}
+{% endblock %}
+{% block sidebar %}
+		<li ><a id="top_menu_vi" href="/vi" class="top_menu">VI</a></li>
+		<li ><a  id="top_menu_host" href="/host" class="top_menu" >Host</a></li>
+		<li ><a id="top_menu_vi" href="/request" class="top_menu">Request</a></li>
+		<li ><a  id="top_menu_cloud" href="/cloud" class="top_menu current_top_menu">Cloud</a></li> 
+{% endblock %}
+{% block content %}
+<div class="center_col">
+	<div id="cloudInfo">
+	<span>Middleware IP  </span>
+	<span id="oldMiddlewareIP" style="display:none" >{{middleIP}}</span>
+	<input type="text" id="middlewareIP" name="MiddlewareIP" value="{{middleIP}}"/><br/>
+	<div>
+	<span>Cloud Mode   </span>
+	<span id="oldCloudMode" style="display:none" >{{cloudMode}}</span>
+	<select id="cloudMode" current="{{cloudMode}}">
+		<option value="0">Full Manual</option>
+		<option value="1">Guest Migration</option>
+		<option value="2">Guest&Host Control</option>
+	</select>
+	</div>
+	<span>Guest Pool </span> 
+	<text id="guestPoolCount">{{cloud.GuestPool.all|length}} <text id="IPlabel">IPAddress</text></text>
+	<a href="#" id="showGuestPool">more info</a>
+	<div id="guestPoolList" style="display:none">
+	{% for gIP in guestPoollist %}
+		{{ gIP}} <br/>
+	{% endfor %}
+	</div>
+	<div id="networkInfo">
+		<div id="netwotkID">
+			<span>Network ID</span><text class="value">{{cloud.network}}</text>
+		</div>
+		<div id="subnet">
+			<span>Subnet Mask</span><text class="value">{{cloud.subnet}}</text>
+		</div>
+		<div id="default">
+			<span>Default Route</span><text class="value">{{cloud.default}}</text>
+		</div>
+	</div>	
+	<div style="text-align:center">
+		<input type="button" id="updateCloudinfo" value="Update"></input>
+	<div>
+	</div>
+</div>
+<script>
+	$("#updateCloudinfo").click(function(){
+		$(this).attr("disabled", "disabled");
+		oldMIP = $("#oldMiddlewareIP").text();
+		newMIP = $("#middlewareIP").val();
+		autoMode = $("#cloudMode").val();
+		oldMode = $("#oldCloudMode").text();
+		if(oldMIP != newMIP || autoMode != oldMode){
+			$("#updateCloudinfo").val("Updating Please Wait")
+			postBack("/editCloudInfo",{'changeMid':oldMIP!=newMIP,'middlewareIP':newMIP,'autoMode':autoMode},
+				function(res,status){
+					if(res.responseText == 'clear')
+						window.location.reload()
+					else{
+						errorSetup(res.responseText)
+					}
+				})
+		}
+		else{
+			$(this).removeAttr("disabled");
+		}
+	})
+	$("#cloudMode").val($("#cloudMode").attr('current'))
+	$("#showGuestPool").click(function(){$("#guestPoolList").slideToggle('fast')});
+</script>
+{% endblock %}
+

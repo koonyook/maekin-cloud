@@ -1,0 +1,124 @@
+function guestCon(){
+	var tmp = $(this).attr("value")
+	if(tmp != "CreateVM"){
+		x = tmp.split('/')
+		x[0] = '/guest/'
+		com = x[0]+x[1]+'/?guestID='+x[2]
+		var data = {com:com}
+		var args = {type:"POST",url:"/sendComm",data:data,complete:checkForPollTask};	
+		if(!addPopup("ID#"+x[2]+" : guest_"+x[1],-1))
+			return;
+	}
+	else	//for createVM
+	{
+		var data = {
+		vi:$("#vi_list option:selected").val(),
+		new_vm_name:$('input[name="new_vm_name"]').val(),
+		new_vm_template:$('select[name="new_vm_template"]').val(),
+		new_vm_memory:$('input[name="new_vm_memory"]').val(),
+		new_vm_vCPU:$('input[name="new_vm_vCPU"]').val(),
+		new_vm_Inbound:$('input[name="new_vm_Inbound"]').val(),
+		new_vm_Outbound:$('input[name="new_vm_Outbound"]').val()
+		}
+		var args = {type:"POST",url:"/createVM",data:data,complete:checkForPollTask};		
+	}
+	$.ajaxSetup({
+			headers: { "X-CSRFToken": getCookie("csrftoken") }
+		});
+	$.ajax(args)
+	return false;
+}
+if(false){
+	$(function(){
+		$.contextMenu({
+			selector: '.vm_object', 
+			build:function($trigger, e){
+				item_menu = {}
+				if($(".vmrunningState",$trigger).text() == "running")
+					item_menu = {"suspend":{name: "Pause"}}
+				else if($(".vmrunningState",$trigger).text() == "paused")
+					item_menu = {"resume":{name: "Play"}}
+				if($(".vmstatus",$trigger).text() == "on"){
+					item_menu = $.extend(item_menu,{"forceOff":{name: "Off"},"save":{name: "Save"}})
+				}
+				else if($(".vmstatus",$trigger).text() == "saved"){
+					item_menu =$.extend(item_menu, {"start":{name: "On"}})
+				}
+				else{
+					item_menu =$.extend(item_menu, {"start":{name: "On"}})
+				}
+				item_menu=$.extend(item_menu,{
+					"sep1": "---------",
+					"save as Template": {name: "save as template"},
+					"destroy": {name: "Delete", icon: "delete"},
+					}
+					);
+				return {
+				callback: function(key, options) {
+				if(!addPopup("ID#"+options.$trigger.attr("id").split('_')[1]+" : guest_"+key,-1))
+					return;
+				postBack("/controlVM",{comm:key,vmid:options.$trigger.attr("id").split('_')[1]},checkForPollTask)
+				},
+				items:item_menu //{
+					//$pause_play.com: 	$pause_play.data,
+					//"start" :  {name: "On", icon: "edit"},
+					//"forceOff": {name: "Off", icon: "edit"},
+					//"resume": {name: "Play", icon: "copy"},
+					//"suspend": {name: "Pause", icon: "cut"},
+					//"save": {name: "Save", icon: "paste"},
+					//"restore": {name: "Restore", icon: "delete"},
+					//"destroy": {name: "Delete", icon: "delete"},
+					//"sep1": "---------",
+					//"Save as Template": {name: "Save as Template", icon: "quit"}
+					//}
+				}
+			}
+		});
+	});
+}
+
+<!-- <span class="vm_movearea">
+	<span class="vm_name">{{ vm.name }}</span>
+</span><br/>
+status : <span  id="{{vm.imageID}}_status" class="vmstatus" >{{ vm.status}}</span><br/>
+<div id="vm_{{vm.imageID}}_act"class="vmactivity">
+	activity : <span id="{{vm.imageID}}_act"" class="vmactivity" >{{ vm.activity}}</span><img src="/media/image/loading.gif" /><br/>
+</div>
+runningState : <span id="{{vm.imageID}}_runState" class="vmrunningState" >{{ vm.runningState}}</span><br/>
+<a href="#"id="vm_{{vm.imageID}}_show_detail" class="show_detail" value="{{vm.imageID}}">Show Info</a>
+<div id="vm_{{vm.imageID}}_info" class="vm_detail"style = "display: none; ">
+<div id="vm_{{vm.imageID}}_curCPU">CPU : <span id="vm_{{vm.imageID}}_curCPU_val"><span></div>
+<div id="vm_{{vm.imageID}}_curMEMU">MEM : <span id="vm_{{vm.imageID}}_curMEM_val"><span></div>
+<div id="vm_{{vm.imageID}}_curNET">NET : <span id="vm_{{vm.imageID}}_curNET_val"><span></div>
+id 		<span class="vm_imageID">{{ vm.imageID }} 	</span>
+name 		<span class="vm_name">{{ vm.name }}		</span>
+hostid 		<span class="vm_hostid">{{ vm.hostid }}		</span>
+uuid 		<span class="vm_uuid">{{ vm.uuid }}			</span>
+MAC 		<span class="vm_MAC">{{ vm.MAC }}		</span>
+IP 			<span class="vm_IP">{{ vm.IP }}	</span>
+template 	<span class="vm_template">{{ vm.template }}	</span>
+memory 		<span class="vm_memory">{{ vm.memory }}	</span>
+vCPU 		<span class="vm_vCPU">{{ vm.vCPU }}	</span>
+inbound 	<span class="vm_inbound">{{ vm.inbound }}	</span>
+outbound	<span class="vm_outbound">{{ vm.outbound }}	</span>
+</div> -->
+
+
+$(".vm_advance_name").text(data.name);
+$(".vm_advance_ip").text(data.IP);
+$(".vm_advance_vi").text(data.ownerVI);
+//$(".vm_advacnce_activity").text(data.activity);
+//$(".vm_advacnce_state").text(data.runningState);
+//$(".vm_advacnce_status").text(data.status);
+$(".vm_advance_host").text(data.hostid);
+$(".vm_advance_MAC").text(data.MAC);
+$(".vm_advance_CPU").text(data.vCPU);
+$(".vm_advance_RAM").text(data.memory);
+$(".vm_advance_templateID").text(data.vCPU);
+$(".vm_advance_inbound").text(data.inbound);
+$(".vm_advance_outbound").text(data.outbound);
+
+$(".vm_advance_OS").text(data.OS);
+$(".vm_advance_templateDesc").text(data.description);
+$(".vm_advance_templateMin").text(data.minimumMemory);
+$(".vm_advance_templateMax").text(data.maximumMemory);

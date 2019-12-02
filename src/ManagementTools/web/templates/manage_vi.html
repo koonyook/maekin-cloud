@@ -1,0 +1,100 @@
+{% extends "base_user.html" %}
+{% block title %}
+	
+	Virtual Infrastructure Management : {{block.super}}
+{% endblock%}
+{% block script %}
+{{block.super}}
+<script type="text/javascript" src="/media/script/mkmt_script_vimenu.js"></script>
+<script type="text/javascript" src="/media/script/mkmt_script_activity.js"></script>
+<script type="text/javascript" src="/media/script/mkmt_script_task.js"></script>
+<script type="text/javascript" src="/media/script/mkmt_script_vi.js"></script>
+<script type="text/javascript" src="/media/script/mkmt_script_graph.js"></script>
+{% endblock%}
+{% block sidebar %}
+	{% if isAdmin %}
+		<li ><a id="top_menu_vi" href="/vi" class="top_menu current_top_menu">VI</a></li>
+		<li ><a  id="top_menu_host" href="/host" class="top_menu">Host</a></li>
+		<li ><a id="top_menu_vi" href="/request" class="top_menu">Request</a></li>
+		<li ><a  id="top_menu_cloud" href="/cloud" class="top_menu">Cloud</a></li> 
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+<div id="twocols">
+<div id="leftcol">
+	<form id="vi_create_form" method="POST" action="/createVI" style="display:none"> 
+	<span class="title_wrap">
+	{% if isAdmin %}Create new VI
+	{% else %}Request new VI
+	{% endif %}
+	</span>
+		{% csrf_token %}
+		<div id="vi_create_option">
+		VI Name 	<div class="paramVI">
+					<input id="create_vi_new_vi_name" class="param" type="text" name="name" maxlength="200" ></input>
+					<span id="create_vi_new_vi_name_error" class="param_error_label"></span>
+					</div>
+		Template 
+		<div class="paramVI">
+		{% for template in templatelist%}
+				<input type="checkbox" name="isTemplate"  value="{{ template.id}}"/> 
+				<span class="vi_create_template_info">
+					<span class="vi_create_template_os">{{template.OS}}</span>
+					<span class="vi_create_template_description">{{template.description}}</span>
+				
+				</span>
+				<br/>
+		{% endfor %}
+				<span id="create_vi_new_vi_template_error" class="param_error_label"></span>
+		</div>
+		AdminGroup 
+		<div class="paramVI">
+		{% for us in currentUser %}
+				<div id="isAdmin_{{ us.id}}"> 
+				<input type="checkbox" id="isAdmin_{{ us.id}} "name="isAdmin"class="checkIsAdmin" value="{{us.id}}"{% if user.id == us.id  or us in cloudAdminGroup%} readonly="readonly " checked="checked" {% endif %} /> {{ us.username }}<br/>
+				</div>
+				
+		{% endfor %}
+		</div>
+		<div class="quotaVI">
+			<span>VM</span>
+			<div class="paramVI">
+				<input type="text" id="quotaIP" name="quotaIP" />
+				Machines
+			</div>
+			<span>vCPU</span>
+			<div class="paramVI">
+				<input type="text" id="quotaCPU"name="quotaCPU" />
+				vCores
+			</div>
+			<span>RAM</span>
+			<div class="paramVI">
+				<input type="text" id="quotaRAM" name="quotaRAM" />
+				X 256 MB
+			</div>
+			<div class="submitBttnContainer">
+			<input type="submit" id="createVI" disabled="disabled" value="{% if isAdmin %}Create VI{% else %}Request VI{%endif %}" />
+			</div>
+			<span id="create_vi_new_vi_qouta_error" class="param_error_label"></span>
+		</div>
+	</div>
+	</form>
+		<div id="vi_list">
+		{% for vi in vi_hold %}
+		<li id="vi_tag_{{vi.vi.id}}" class="vi_tag"value="{{vi.vi.id}}" href="/vi/{{vi.vi.id}}/vmVICon" {% if vi_id == vi.id %}{% endif %}>{{vi.vi.name}}</li>
+		{% endfor %}
+		{% for req in reqVI %}
+			<a class="req_vi {%if not isAdmin%}vi_req_user{%endif%}" {%if isAdmin%}href="/request"{% endif %}>{{req.name}} (Pending)</a>
+		{% endfor %}
+		<div id="vi_top_menu">
+			<input type="submit" id="showCreateVI" value="{% if isAdmin %}+ VI{% else %}Request VI{% endif %}">
+		</div>
+		</div>
+</div>
+<div id="maincol">
+	{% block VICon%}
+	{% endblock%}
+</div>
+</div>
+{% endblock %}

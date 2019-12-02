@@ -1,0 +1,85 @@
+{% extends base_template %}
+
+{% block title %}
+	Initialize Cloud : {{block.super}}
+
+{% endblock%}
+{% block content %}
+<div class="center_col">
+<form action="/createXML" method="post" id="init_form">
+{% csrf_token %}
+<div id="connectInfo">
+<span>Middleware IP  </span><input type="text" name="MiddlewareIP" id="MiddlewareIP" value="{{middleIP}}"/><br/>
+<span id="error_middle" class="error_label">{{error_middle}}</span>
+</div>
+<div id="AdminInfo">
+<span>Admin Name   </span><input type="text" id="adminName"name="AdminName" value="{{def_adminname}}" />
+<br/>
+<span>Admin Password   </span><input type="password" id="adminPass" name="AdminPass" value="{{def_adminpass}}"/><br/>
+<span>Confirm Password   </span><input type="password" id="con_password" value="{{def_adminpass}}"/><br/>
+<span id="error_admin_pass" class="error_label"></span><br/>
+<span>Admin Email</span> <input type="text" id="adminEmail" name="AdminEmail" value="{{def_adminemail}}"/>
+
+<br/>
+</div>
+<div id="cloudMKMTInfo">
+<span>Global VI Name  </span><input type="text" id="globalCloudName" name="globalCloudName" value="{{def_defaultVIName}}"/><br/>
+</div>
+<span id="error_admin" class="error_label">{{error_admin}}</span>
+<span id="error_param" class="error_label" style="display:block;">{{error_param}}</span>
+<span id="error_email" class="error_label"></span>
+<input type="submit" id="submit_mkmkt_conf" value="Submit" />
+
+</form>
+</div>
+{% endblock %}
+
+
+{% block script %}
+{{ block.super }}
+<script>
+	function checkinput(){
+		var check = true;
+		if ($("#adminPass").val() != $("#con_password").val()){
+			$("#error_admin_pass").text("Error password not match");
+			check =  false;
+		}
+		else{
+			$("#error_admin_pass").text("");
+		}
+		if($("#adminName").val() == "" || $("#globalCloudName").val() == "" || $("#globalCloudName").val() == "" || $("#MiddlewareIP").val() == ""){
+			$("#error_param").text("Fields is required");
+			check = false;
+		}
+		else{
+			$("#error_param").text("");
+			if(!isValidEmailAddress($("#adminEmail").val())){
+				$("#error_email").text("Email is error");
+				check = false;
+			}
+			else
+				$("#error_email").text("")
+			if(!isCharNumberAndUnderscore($("#adminName").val()) || !isCharNumberAndUnderscore($("#globalCloudName").val())){
+				$("#error_admin").text("Name field is only Character,Number and _ approved");
+				check = false;
+			}
+			else
+				$("#error_admin").text("");
+			if(!(isIP($("#MiddlewareIP").val()))){
+				$("#error_middle").text("Invalid IP");
+				check = false;
+			}
+			else
+				$("#error_middle").text("");
+		}
+		return check;
+	}
+	$(document).ready(function(){
+		$("#init_form").submit(function(){
+			if(!checkinput()){
+				return false;
+			}
+		})
+	})
+</script>
+{% endblock %}

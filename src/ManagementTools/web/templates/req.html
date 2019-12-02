@@ -1,0 +1,110 @@
+{% extends "base_user.html" %}
+{% block title %}
+	Request Management : {{block.super}}	
+{% endblock%}
+{% block script %}
+{{block.super}}
+	<script type="text/javascript" src="/media/script/mkmt_script_graph.js"></script>
+{% endblock%}
+{% block sidebar %}
+		<li ><a id="top_menu_vi" href="/vi" class="top_menu">VI</a></li>
+		<li ><a id="top_menu_host" href="/host" class="top_menu" >Host</a></li>
+		<li ><a id="top_menu_vi" href="/request" class="top_menu current_top_menu">Request</a></li>
+		<li ><a id="top_menu_cloud" href="/cloud" class="top_menu">Cloud</a></li> 
+{% endblock %}
+{% block content %}
+<div id="global_vi_info">
+	<span id="global_vi_name">{{global_vi.name}}</span>
+	<!-- <div id="global_vi_quota" class="global_vi_quota">
+		<div class="global_vi_detail_info">IP 
+			<span id="global_vi_used_IP">{{global_vi.usedIP}}</span>/
+			<span id="global_vi_quota_IP">{{global_vi.quotaIP}}</span>
+		</div>
+		<div class="global_vi_detail_info">CPU
+			<span id="global_vi_used_CP">{{global_vi.usedVCPU}}</span>/
+			<span id="global_vi_quota_CPU">{{global_vi.quotaVCPU}}</span>
+		</div>
+		<div class="global_vi_detail_info">RAM
+			<span id="global_vi_used_RAM">{{global_vi.usedRAM}}</span>/
+			<span id="global_vi_quota_RAM">{{global_vi.quotaRAM}}</span>
+		</div>
+	</div> -->
+	<div id="vi_resource_form_global" class="vi_resource_form_global" >
+		<img class="vi_quota_image" src="/media/image/icon_ip.png"/> IP
+		<div class="vi_quota_bar_global bar_IP_global" >
+			<span  id="bar_IP_global"class="vi_used_bar used_bar_IP" style="width:{{ratioIP}}%">
+			</span>
+			<span class="vi_quota_param">
+				<span id="vi_used_IP_global">{{global_vi.usedIP}}</span>/
+				<span id="vi_quota_IP_global" >{{global_vi.quotaIP}}</span>
+			</span>
+		</div>
+	</div>
+</div>
+
+<div id="request_list" >
+{% for req in req_list %}
+	<div id="request_object_{{req.id}}" class="request_object">
+		<div id="request_detail_{{req.id}}" class="request_detail">
+			<div class="request_vi_setting">
+				<span class="request_detail_label">Owner</span>
+					<span class="request_detail_param">{{req.owner}}</span><br/>
+				<span class="request_detail_label">VI name</span>
+					<span class="request_detail_param">{{req.name}}</span> <br/>
+				<span class="request_detail_label">User in Admin</span>
+					<div class="request_detail_param request_admin_info">
+					{% for adminUser in req.adminGroup.all %}
+						<span class="request_admin_detail">{{adminUser.username}}</span>
+					{% endfor %}
+					</div>
+				<span class="request_detail_label">Request IP</span>
+					<span class="request_detail_param">{{req.quotaIP}} </span><br/>
+				<span class="request_detail_label">Request vCPU</span>
+					<span class="request_detail_param">{{req.quotaVCPU}}</span> <br/>
+				<span class="request_detail_label">Request Ram</span>
+					<span class="request_detail_param">{{req.quotaRAM}} </span><br/>
+			</div>
+			<div class="request_vi_template_info">
+				<span class="request_detail_label">Template List</span>
+				<div id="req_template_{{req.id}}" class="vi_template_form request_template_form" >
+				{% for template in req.template.all %}
+					<div id="template_info_{{template.id}}" class="template_info request_template_info">
+						<div id="template_info_avatar_{{template.id}}" class="template_info_avatar"><img src="/media/image/logo_{{template.ostype}}.png"/></div>
+						<!-- <span class="template_info_label">OS</span> -->
+						<div class="template_info_detail">
+							<div class="template_info_os">{{template.OS}} </div>
+							<div class="template_info_desc">{{template.description}}</div>
+						</div>
+						<div class="seperateLine"></div>
+					</div>
+				{% endfor %}
+				</div>
+			</div>
+		</div>
+		<div id="request_comm_{{req.id}}" class="request_comm">
+			{% csrf_token %}
+			<a value="{{req.id}}"  class="request_accept">Accept</a>
+			<a value="{{req.id}}"  class="request_decline">Decline</a>
+		</div>
+	</div>
+{% endfor %}
+</div>
+<script>
+$(document).ready(function(){
+	$(".request_accept").click(function(){
+			reqID = $(this).attr('value')
+			if($(this).attr('class') == "request_accept")
+				command = "accept"
+			else
+				command = "decline"
+			postBack('/requestConfirm',{reqID:reqID,command:command},
+				function(res,status){
+					if(res.responseText == "clear")
+						window.location.reload();
+					else
+						errorSetup(res.responseText);
+				});
+	});
+});
+</script>
+{% endblock %}

@@ -1,0 +1,10 @@
+<title> HOME </title>
+{% if not islogin %}
+	please login <br>
+	<a href="/"><input type="button" value="to login"/></a>
+{% else %}
+	you logged in as :: {{username}} <br>
+	<a href="logout"><input type="button" value="logout"/></a>
+	<a href="init"><input type="button" value="CreatXML_tmp"/></a>
+
+{% endif %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+Administator for cloud  <br>
+user : Admin <br>
+pass : {{ password}} <br>
+
+please change password after login
+<br>
+<br>
+content : <br>
+
+<a href="{{ STATIC_URL }}tmpXML" ><input type="button" value="downloadXML"/></a><br><br>
+
+<a href="/"><input type="button" value="Back to home"/></a>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+
+<startup>
+<UUID> 0 </UUID>
+<name> MaekinTest </name>
+<network id="158.108.34.0" mask="255.255.255.128" defaultRoute="158.108.34.1"/>
+<dns>
+<dnsAddress IP="158.108.1.0" />
+</dns>
+<IPaddressPool>
+<host>
+<Bind MAC="00:23:AE:B2:48:2A" IP="158.108.34.111" hostName="steam1.cpe.ku.ac.th" />
+<Bind MAC="00:23:AE:B2:47:B4" IP="158.108.34.112" hostName="steam2.cpe.ku.ac.th" />
+</host>
+<guest>
+<IP start="158.108.34.48" stop="158.108.34.49" />
+</guest>
+</IPaddressPool>
+</startup>

@@ -1,0 +1,366 @@
+{% extends "manage_vi.html" %}
+{% block VICon%}
+<div id="vm_top_menu">
+	<input type="submit" value="+ VM" class="top_menu_bttn" id="top_menu_bttn_createVM"></input>
+		
+		<form method = "POST" action="/createVM"  id="createVMForm" style="display:none">
+		<span class="title_wrap">Create new vm</span>
+		<div id="CreateVM_main">
+			{% csrf_token %}
+			VI<div class="param" ><select name="new_vm_vi" id="selectvi_newVM">
+				{% for vi in vi_hold %}
+				<option  value="{{vi.vi.id}}">{{vi.vi.name}}</option>
+				{% endfor %}
+				</select></div>
+			<br/>
+			Name<div class="param"><input type="text" name="new_vm_name" class="input_name"/></div><br/>
+			Template  <div class="param" ><select name="new_vm_template" id="new_vm_template_select">
+				<option value="0">Please Select Template </option>
+			{% for template in templatelist%}
+				<option value="{{template.id}}"> {{template.OS}} : {{template.description}} 
+				</option>		
+			{% endfor %}
+			
+			</select></div ><br/>
+				<span id="mem_template_0" style="display:none">0,2048</span>
+			{% for template in templatelist%}
+				<span id="mem_template_{{template.id}}" style="display:none"> {{template.minMem}},{{template.maxMem}} </span>			
+			{% endfor %}
+			Memory 
+				<div class="param">
+				<input type="radio" class="newvm_memory" name="new_vm_memory" style="width:5%;"value="256">256 MB</input>
+				<input type="radio" class="newvm_memory" name="new_vm_memory" style="width:5%;"value="512">512 MB</input>
+				<input type="radio" class="newvm_memory" name="new_vm_memory" style="width:5%;"value="1024">1 GB</input>
+				<input type="radio" class="newvm_memory" name="new_vm_memory" style="width:5%;"value="2048">2 GB</input>
+				</div>
+			<br/>
+			vCPU 
+				<div class="param" >
+				<input type="radio" class="newvm_cpu" name="new_vm_vCPU" style="width:10%;"value="1">1 core</input>
+				<input type="radio" class="newvm_cpu" name="new_vm_vCPU" style="width:10%;"value="2">2 cores</input>
+				</div >
+			<br/>
+	<!-- 		<span>Inbound </span> <input type="text" name="new_vm_Inbound"/>	<br/>
+			<span>Outbound </span> <input type="text" name="new_vm_Outbound"/>	<br/> -->
+			<div class="submitBttnContainer">
+			<input type="submit" id="CreateVM" class="submitBttnWrapForm submit_createVM" value="CreateVM"/></div>
+		</div>
+	<!--</form>
+	 <input value="VM " class="top_menu_bttn" id="top_menu_bttn_createVM"></input>
+	<form method="POST" action="/saveAsTemplate" class="saveAsTemplateForm" style="display:none">
+		<span class="title_wrap">Save to Template</span>
+		Description<div class="param"><input type="text" name="new_template_description"/></div>
+		<div style="text-align:right">
+			<input type="submit" id="submit_saveAsTemplate" class="submit_saveAsTemplate" value="CreateVM"/>
+		</div>		
+	</form>  -->
+</div>
+</form>
+
+<div id="vm_vi_all">
+{% for vi in vi_hold%}
+	<div id="vi_{{vi.vi.id}}" class="vi_object">
+		<div id="vi_role_{{vi.vi.id}}" class="" style="display:none">
+			<span id="vi_role_userAdd_{{vi.vi.id}}" >		{{vi.userRole.userAdd }} 	</span>
+			<span id="vi_role_userRemove_{{vi.vi.id}}">  	{{vi.userRole.userRemove }}	</span>
+			<span id="vi_role_vmControl_{{vi.vi.id}}">		{{vi.userRole.vmControl }}	</span>
+			<span id="vi_role_vmCreate_{{vi.vi.id}}">  		{{vi.userRole.vmCreate 	}}	</span>
+			<span id="vi_role_vmDelete_{{vi.vi.id}}" >		{{vi.userRole.vmDelete 	}}	</span>
+			<span id="vi_role_templateAdd_{{vi.vi.id}}">	{{vi.userRole.templateAdd}}	</span>
+			<span id="vi_role_templateRemove_{{vi.vi.id}}"> {{vi.userRole.templateRemove}} </span>
+		</div>
+	<!-- <span class="vi_name">{{vi.vi.name}}</span>  -->
+		<!-- /////////////////////////
+		/////////////VI MENU
+		/////////////////////-->
+		<div id="vi_menu_tab_{{vi.vi.id}}" class="vi_menu_tab" >
+			<a id="vi_menu_vm_bttn_{{vi.vi.id}}" class="vi_menu_vm_bttn" href='/vi/{{vi.vi.id}}/vm'>VM</a>
+			<a id="vi_menu_template_bttn_{{vi.vi.id}}" class="vi_menu_template_bttn" href='/vi/{{vi.vi.id}}/template'>Template</a>
+			<a id="vi_menu_user_bttn_{{vi.vi.id}}" class="vi_menu_user_bttn" href='/vi/{{vi.vi.id}}/user'>User</a>
+			{% if vi.vi.id != 0 or isAdmin %}
+			<a id="vi_menu_summary_bttn_{{vi.vi.id}}" class="vi_menu_summary_bttn" href='/vi/{{vi.vi.id}}/summary'>Summary</a>
+			{% endif %}
+		</div>
+		<!-- /////////////////////////
+		/////////////VM MENU
+		/////////////////////-->
+		<div id="vm_vi_{{vi.vi.id}}" class="vm_vi_list">
+			{%if vi.vi.id != 0%}
+				{% if vi.vi.owner == user or isAdmin and vi.vi.id != 0%}
+					<a class="vi_del_bttn" href='/vi/{{vi.vi.id}}/deleteVI'>X</a>
+				{% endif %}
+			{% endif %}
+			{% for vm in vi.vmlist %}
+			<div id="vm_{{vm.imageID}}" class="vm_object">
+			<div id="vm_avtdiv_{{vm.imageID}}" class="vmAvatar">
+				<img id="vm_wait_{{vm.imageID}}" src="/media/image/waiting.gif" class="vm_wait_image" style="display:none"/>
+				<div class="vm_menu" id="vm_menu_{{vm.imageID}}" style="display:none">
+				</div>
+				<img id="vm_avt_{{vm.imageID}}"src="/media/image/{% if  vm.runningState == 'running' %}vm_on.png{% else %}{% if  vm.runningState == 'paused' %}vm_pause.png{% else %}{% if vm.status == 'shutoff' %}vm_off.png{% else %}{% if vm.activity == 'cloning' %}vm_clone.gif{% else %}{% if vm.activity == 'booting' %}vm_boot.gif{%else%}vm_offline.png{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}"/>
+			</div>
+			<span  id="vm_status_{{vm.imageID}}" class="vmstatus"style="display:none" >{{ vm.status}}</span>
+			<span id="vm_act_{{vm.imageID}}" class="vmactivity" style="display:none">{{ vm.activity}}</span>
+			<span id="vm_runState_{{vm.imageID}}" class="vmrunningState" style="display:none">{{ vm.runningState}}</span>
+			<span id="vm_vmcanControl_{{vm.imageID}}" class="vmcanControl" style="display:none">{% if vm.activity == 'none' %}free{%else%}working{% endif %}</span>
+			<span  id="vm_vCPU_{{vm.imageID}}" class="vmvCPU"style="display:none" >{{ vm.vCPU}}</span>
+			<span  id="vm_memory_{{vm.imageID}}" class="vmMemory"style="display:none" >{{ vm.memory}}</span>
+			<span id="vm_name_{{vm.imageID}}"class="vm_name" >{{ vm.name }}</span>
+			<span id="vm_IP_{{vm.imageID}}" class="vm_IP"   >{{ vm.IP }}	</span>
+			</div> 
+			{% endfor %}
+		</div>
+		<!-- /////////////////////////
+		/////////////TEMPLATE MENU
+		/////////////////////-->
+		<div id="vi_template_form_{{vi.vi.id}}" class="vi_template_form" style="display:none">
+		{% for template in vi.template %}
+			<div id="template_info_{{template.id}}" class="template_info">
+				<div id="template_info_avatar_{{template.id}}" class="template_info_avatar"><img src="/media/image/logo_{{template.ostype}}.png"/></div>
+				<!-- <span class="template_info_label">OS</span> -->
+				<div class="template_info_detail">
+					<div class="template_info_os">{{template.OS}} </div>
+					<div class="template_info_desc">{{template.description}}</div>
+					<span class="template_info_memlabel">Memory : 
+					<span id="template_info_mem_{{template.id}}">{{template.minMem}} MB - {{template.maxMem}} MB</span>
+					</span>
+				</div>
+				<div class="seperateLine"></div>
+			</div>
+		{% endfor %}
+		</div>
+		<!-- /////////////////////////
+		/////////////USER MENU
+		/////////////////////-->
+		<div id="vi_user_form_{{vi.vi.id}}" class="vi_user_form" style="display:none">
+			<div id="vi_role_data_{{vi.vi.id}}" class="vi_role_data">
+			<!-- <span class="vi_name">{{vi.vi.name}}</span> -->
+			{% if vi.vi.id != 0 and vi.userRole.userAdd or vi.userRole.userRemove%}
+			<input type="button" id="editUserBttn_{{vi.vi.id}}" class="editUserBttn" value="Edit User"></input> 
+			{% endif %}
+			{%if user in vi.adminGroup and vi.vi.id != 0%}
+				<input type="button" id="addRoleBttn_{{vi.vi.id}}" class="addRoleBttn" value="Add Role"></input> 
+			{% endif %}
+			<div id="vi_role_userleft_{{vi.vi.id}}" class="user_left_pool">
+				{% for us in currentUser %}
+					{% if us not in vi.userGroup%}
+						<li id="user_object_{{vi.vi.id}}_left_{{us.id}}"class="user_object_left"><span class="role_user_name">{{us.username}}</span></li>
+					{% endif %}
+				{% endfor %}
+			</div>
+			<div id="vi_rolelist_{{vi.vi.id}}" class="vi_role_list">
+			{% for role in vi.roleList %}
+				<div id="vi_role_{{role.role.id}}" class="vi_role_object">
+				<span id="vi_role_name_{{role.role.id}}">{{ role.role.name }} </span>
+			
+				{% if not role.role.roleEdit %}
+					{% if vi.vi.id != 0 or user in vi.adminGroup %}
+					<input type="button" id="editRoleBttn_{{role.role.id}}" class="editRoleBttn" value="Edit"></input> 
+					{% endif %}
+				{% endif %}
+				<br/>
+					<form method="POST" id="vi_role_perm_{{role.role.id}}" class="perm_pool">
+						{% csrf_token %}
+						<input type="hidden" name="vi_id" value="{{vi.vi.id}}"/>
+						<input type="hidden" name="roleName" value="{{ role.role.name }}"></input>
+						User ::
+						<input type="checkbox" name="userAdd" {%if role.role.userAdd %}checked="checked"{% endif %}>Add 
+						<input type="checkbox" name="userRemove" {%if role.role.userRemove %}checked="checked"{% endif %}>Remove<br/>
+						VM ::
+						<input type="checkbox" name="vmControl" {%if role.role.vmControl %}checked="checked"{% endif %}>Control
+						<input type="checkbox" name="vmCreate" {%if role.role.vmCreate %}checked="checked"{% endif %}>Create
+						<input type="checkbox" name="vmDelete" {%if role.role.vmDelete %}checked="checked"{% endif %}> Delete<br/> 
+						Template  ::
+						<input type="checkbox" name="templateAdd" {%if role.role.templateAdd %}checked="checked"{% endif %}>Add
+						<input type="checkbox" name="templateRemove" {%if role.role.templateRemove %}checked="checked"{% endif %}>Remove
+						<div class="submit_key">
+							<input type="submit" name="role_edit" id="vi_role_perm_{{role.role.id}}" value="Edit Role" class="vi_role_perm_submit"/>
+						</div>
+					</form>
+					<div id="vi_role_user_{{role.role.id}}" class="user_pool">
+						{% for u in role.usergroup%}
+							{% if not u.is_superuser%} 
+							<li class="user_object {%if u in cloudAdminGroup%}user_cloudadmin{%endif%}" id="user_object_{{vi.vi.id}}_{{role.role.id}}_{{u.id}}">
+							{%if u not in cloudAdminGroup%}<a class="removeUserBttn" href="#">X </a>{%endif%}
+							<span id="user_object_name_{{vi.vi.id}}_{{role.role.id}}_{{u.id}}" class="role_user_name {%if u in cloudAdminGroup%}role_user_cloudadmin{%endif%}">{{u.username}}</span></li>
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+				
+			{% endfor %}
+			</div>
+			{% if us not in vi.userGroup and vi.vi.id != 0 %}
+			<div id="vi_role_new_{{vi.vi.id}}" class="vi_role_new">
+				<form method="POST" id="vi_role_new_form_{{vi.vi.id}}" action="/createRole" class="vi_role_new_form">
+					{% csrf_token %}
+					<input type="hidden" name="vi_id" value="{{vi.vi.id}}"/>
+					Name :: <input type="text" name="new_roleName"></input><br/>
+					User ::
+					<input type="checkbox" name="new_userAdd" {%if role.role.userAdd %}checked="checked"{% endif %}/>Add 
+					<input type="checkbox" name="new_userRemove" {%if role.role.userRemove %}checked="checked"{% endif %}/>Remove<br/>
+					VM ::
+					<input type="checkbox" name="new_vmControl" {%if role.role.vmControl %}checked="checked"{% endif %}/>Control
+					<input type="checkbox" name="new_vmCreate" {%if role.role.vmCreate %}checked="checked"{% endif %}/>Create
+					<input type="checkbox" name="new_vmDelete" {%if role.role.vmDelete %}checked="checked"{% endif %}/> Delete<br/> 
+					Template  ::
+					<input type="checkbox" name="new_templateAdd" {%if role.role.templateAdd %}checked="checked"{% endif %}/>Add
+					<input type="checkbox" name="new_templateRemove" {%if role.role.templateRemove %}checked="checked"{% endif %}/>Remove<br/>
+					<div class="submit_key">
+						<input type="submit" name="new_create" id="vi_role_new_submit_{{vi.vi.id}}" value="Create Role" class="vi_role_new_submit"/>
+					</div>
+				</form>
+			</div>
+			{% endif %}
+			</div>
+		</div>
+		<!-- /////////////////////////
+		/////////////Summary MENU
+		/////////////////////-->
+		<div id="vi_summary_form_{{vi.vi.id}}"  class="vi_summary_form" style="display:none">
+			<div id="vi_resource_form_{{vi.vi.id}}" class="vi_resource_form" >
+				<span class="vi_quota_label">VI Resources</span>
+				<img class="vi_quota_image" src="/media/image/icon_ip.png"/> IP
+				
+				<div class="vi_quota_bar bar_IP" >
+					
+					<span  id="bar_IP_{{vi.vi.id}}"class="vi_used_bar used_bar_IP" style="width:{{vi.ratioIP}}%">
+					</span>
+					<span class="vi_quota_param">
+						<span id="vi_used_IP_{{vi.vi.id}}" value="{{vi.vi.usedIP}}">{{vi.vi.usedIP}}</span>/
+						<span id="vi_quota_IP_{{vi.vi.id}}" value="{{vi.vi.quotaIP}}" >{% if vi.vi.quotaIP == None%}Infinite{%else%}{{vi.vi.quotaIP}}{%endif%}</span>
+					</span>
+					{%if isAdmin and vi.vi.id != 0%}
+					<span class="vi_quota_reduce" dif="0"value="IP" id="vi_quota_IP_remove_{{vi.vi.id}}">-</span>
+					<span class="vi_quota_add" dif="0"value="IP" id="vi_quota_IP_add_{{vi.vi.id}}">+</span>
+					{% endif %}
+				</div>
+				
+				<img class="vi_quota_image" src="/media/image/icon_cpu.png"/> vCPU
+				<div class="vi_quota_bar bar_cpu" >
+					
+					<span  id="bar_cpu_{{vi.vi.id}}"class="vi_used_bar used_bar_cpu" style="width:{{vi.ratiovCPU}}%">
+					</span>
+					<span class="vi_quota_param">
+						<span id="vi_used_CPU_{{vi.vi.id}}" value="{{vi.vi.usedVCPU}}" >{{vi.vi.usedVCPU}}</span>/
+						<span id="vi_quota_CPU_{{vi.vi.id}}" value="{{vi.vi.quotaVCPU}}">{% if vi.vi.quotaVCPU == None%}Infinite{%else%}{{vi.vi.quotaVCPU}}{%endif%}</span>
+					</span>
+					{%if isAdmin and vi.vi.id != 0%}
+					<span class="vi_quota_reduce" dif="0"value="CPU" id="vi_quota_CPU_reduce_{{vi.vi.id}}">-</span>
+					<span class="vi_quota_add" dif="0" value="CPU" id="vi_quota_CPU_add_{{vi.vi.id}}">+</span>
+					{% endif %}
+				</div>
+				<img class="vi_quota_image" src="/media/image/icon_mem.png"/> RAM
+				<div  class="vi_quota_bar bar_mem" >
+					
+					<span id="bar_mem_{{vi.vi.id}}"class="vi_used_bar used_bar_mem" style="width:{{vi.ratioRAM}}%">
+					</span>
+					<span class="vi_quota_param">
+						<span id="vi_used_RAM_{{vi.vi.id}}" value="{{vi.vi.usedRAM}}" >{{vi.vi.usedRAM}}</span>/
+						<span id="vi_quota_RAM_{{vi.vi.id}}" value="{{vi.vi.quotaRAM}}">{% if vi.vi.quotaRAM == None%}Infinite{%else%}{{vi.vi.quotaRAM}}{%endif%}</span>
+					</span>
+					{%if isAdmin and vi.vi.id != 0%}
+					<span class="vi_quota_reduce" dif="0"value="RAM" id="vi_quota_Ram_reduce_{{vi.vi.id}}">-</span>
+					<span class="vi_quota_add"  dif="0" value="RAM" id="vi_quota_Ram_add_{{vi.vi.id}}">+</span>
+					{% endif %}
+				</div>
+				{%if isAdmin and vi.vi.id != 0%}
+				<span class="vi_quota_update" value="{{vi.vi.id}}" id="vi_quota_update_{{vi.vi.id}}">Update</span>
+				{% endif %}
+			</div>
+			<div class="vi_log_bg">
+				<span id="vi_log_refresh_bttn_{{vi.vi.id}}" class="vi_log_refresh_bttn">Refresh Log</span>
+				<div id="vi_log_form_{{vi.vi.id}}" class="vi_log_form">
+				
+		
+				{% for log in vi.log reversed %}
+						<div class="vi_log_detail">
+							<span class="vi_log_finish">{%if log.finishTime == None%}null{%else%}{{log.finishTime}}{%endif%}</span>
+							<span class="vi_log_vm">{{log.vmName}}</span>
+							<span class="vi_log_action">{{log.action}}</span>
+							<span class="vi_log_user">{{log.user.username}}</span>
+							<!-- <span class="vi_log_start">{{log.startTime}}</span> -->
+							
+						</div>
+				{% endfor%}
+				</div>
+			</div>
+		</div>
+		<!-- /////////////////////////
+		/////////////END each VI
+		/////////////////////-->
+	</div>
+	{% endfor %}
+	<div id="vm_n" class="new_vm_object" style="display:none"> 
+		<div  id="vm_avtdiv_n" class="vmAvatar">
+			<img id="vm_wait_n" src="/media/image/waiting.gif" class="vm_wait_image"style="display:none"/>
+			<div class="vm_menu" id="vm_menu_n" style="display:none">
+			</div>
+		<img id="vm_avt_n"src="/media/image/vm_off.png"/>
+		</div>
+		<span  id="vm_vCPU_n" class="vmvCPU"style="display:none" >{{ vm.vCPU}}</span>
+		<span  id="vm_memory_n" class="vmmemory"style="display:none" >{{ vm.memory}}</span>
+		<span  id="vm_status_n" class="vmstatus"style="display:none" >{{ vm.status}}</span>
+		<span id="vm_act_n" class="vmactivity" style="display:none">{{ vm.activity}}</span>
+		<span id="vm_runState_n" class="vmrunningState" style="display:none">{{ vm.runningState}}</span>
+		<span id="vm_vmcanControl_n" class="vmcanControl" style="display:none"></span>
+		<span id="vm_name_n"class="vm_name" >{{ vm.name }}</span>
+		<span id="vm_IP_n" class="vm_IP"   >{{ vm.IP }}	</span>
+	</div>
+<div id="vm_advance" class="vm_advance_form" style="display:none">
+	<span class="title_wrap">VM Control</span>
+	<div id="vm_advance_col_left">
+		<text id="vm_label_name_ip">
+			<text id="vm_label_name" class="vm_adv_label">
+				<span class="vm_advance_name"></span>
+			</text>
+			<text id="vm_label_ip" class="vm_adv_label">
+				<span class="vm_advance_ip"></span>
+			</text>
+		</text>
+		<div id="vm_admenu_n" class="vm_advance_menu">
+			<img src="/media/image/bttn_play.png"  value="start" id="bttn_vm_advance_play" class="bttn_vm_advance" >
+			<img src="/media/image/bttn_off.png"  value="forceOff" id="bttn_vm_advance_off" class="bttn_vm_advance bttn_down_vm">
+			<img src="/media/image/bttn_pause.png"  value="suspend" id="bttn_vm_advance_pause" class="bttn_vm_advance bttn_down_vm">
+			<img src="/media/image/bttn_save.png"  value="save" id="bttn_vm_advance_save" class="bttn_vm_advance bttn_down_vm">
+		</div>
+		<div id="vm_admenumore_n" class="vm_advance_menu_more">
+			<img src="/media/image/bttn_delete.png"  value="destroy"id="bttn_vm_advance_delete"  class="bttn_vm_advance">
+			<!-- <img src="/media/image/bttn_move.png"  value="move" class="bttn_vm_advance"> -->
+		</div>
+		<div id="vm_graph">
+			<div id="vm_graph_cpu" class="vm_graph_info"></div>
+			<div id="vm_graph_net" class="vm_graph_info"></div>
+			<div id="vm_graph_io" class="vm_graph_info"></div>
+		</div>
+	</div>
+	<div id="vm_advance_col_right">
+	
+		<div id="vm_advance_vi_info" class="vm_advance_info">
+			<div class ="vm_advance_info_label">Virtual Infrastructure</div>
+			<text><div  class="vm_advance_info_value_label">VI </div><span class="vm_advance_vi"></span></text>
+			{% if isAdmin %}
+			<text><div  class="vm_advance_info_value_label">Host ID</div><span class="vm_advance_host"></span></text>
+			{% endif %}
+		</div>
+		
+		<div id="vm_advance_net_info"  class="vm_advance_info">
+			<div class ="vm_advance_info_label">Network</div>
+			<text><div  class="vm_advance_info_value_label">IP</div><span class="vm_advance_ip2"></span></text>
+			<text><div  class="vm_advance_info_value_label">MAC Address</div><span class="vm_advance_MAC"></span></text>
+		</div>
+		
+		<div id="vm_advance_spec_info" class="vm_advance_info">
+			<div class ="vm_advance_info_label">Specification</div>
+			<text><div  class="vm_advance_info_value_label">CPU</div><span class="vm_advance_CPU"></span></text>
+			<text><div  class="vm_advance_info_value_label">Memory</div><span class="vm_advance_RAM"></span></text>
+		</div>
+		
+		<div id="vm_advance_template_info"  class="vm_advance_info">
+			<div class ="vm_advance_info_label">Template</div>
+			<text><div  class="vm_advance_info_value_label">OS</div><span class="vm_advance_OS"></span></text>
+			<text><div  class="vm_advance_info_value_label">Info</div><span class="vm_advance_templateDesc"></span></text>
+		</div>
+	</div>
+</div>
+{{ response }}
+{% endblock%}

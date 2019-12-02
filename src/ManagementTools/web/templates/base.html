@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+{% block script %}
+	<link rel="stylesheet" type="text/css" href="/media/css/jquery.contextMenu.css" />
+	<link rel="stylesheet" type="text/css" href="/media/css/blank.css" />
+	<script type="text/javascript" src="/media/script/jquery-1.7.1.min.js"></script> 
+	<script type="text/javascript" src="/media/script/jquery-ui-1.8.17.custom.min.js"></script>
+	<script type="text/javascript" src="/media/script/mkmt_script_base.js"></script>
+	<script type="text/javascript" src="/media/script/mkmkt_wrap.js"></script>
+{% endblock %}
+	<title>{% block title %}Maekin Management Tools{% endblock %}</title>
+</head>
+<body>
+	{% block wrap %}
+	<div id="wrapup" class="wrap-none" style="display:none">
+		<div id="wrap_div" style="display:none">
+			<div id="wrap_close"><span id="wrap_close_bttn">x<span></div>
+		</div>
+		<div id="wrap_div2" style="display:none"></div>
+		<div id="wrap_outside"></div>
+		<div id="wrap_pool" style="display:none"></div>
+		<div id="vi_alert" class="vi_alert_form" style="display:none">
+			<span class="title_wrap">Alert</span>
+			<div id="alert_content">
+				<span id="alert_header" >Warning!</span>
+				<div id="alert_text">
+				</div>
+			</div>
+			<div id="alert_command">
+				<a id="alert_OK" class="alert_choice">OK</a>
+				<a id="alert_cancel" class="alert_choice">Cancel</a>
+			</div>
+		</div>
+	</div>
+	{% endblock %}
+	{% block header %} 
+	{% endblock %}
+	{% block content %}
+	{% endblock %}
+	<script>
+		$("#wrap_outside").click(removeWrap);
+		$("#wrap_close_bttn").click(removeWrap);
+	</script>
+</body>
+</html>
